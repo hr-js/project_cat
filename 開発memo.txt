@@ -1,0 +1,24 @@
+macOS 10.12.4
+
+
+mongodbインストール手順
+ここから入手可能
+https://www.mongodb.com/download-center#community
+brewでinstallした。。
+
+expressチュートリアル
+http://expressjs.com/en/starter/installing.html
+
+express-generator使用のページ
+http://expressjs.com/en/starter/generator.html
+フレームワーク？
+
+【モンゴDBにアクセスに関して】
+・brewでモンゴを起動だと思う
+brew services start mongodb
+・モンゴin!!!
+sudo mongo
+・モンゴexsit!!
+exsit
+・モンゴstop!!!
+brew services stop mongodb
