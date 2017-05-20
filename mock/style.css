@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+body{
+	margin: 10px;
+	padding: 0px;
+}
+h1{
+	border-bottom: 2px solid black;
+}
+h2{
+	border-bottom: 1px solid lightgray;
+}
+table, th, td{
+	border: 1px solid lightgray;
+}
+.question{
+	color: red;
+}
+
+/*計算方法選択エリア*/
+div.selectArea{
+	display: flex;
+	flex-direction: row;
+}
+div.selectArea > button:not(:last-child){
+	margin-right: 10px;
+}
+.calcModeButton{
+	height: 40px;
+	width: 40px;
+  border-radius: 5px;
+  border: 2px lightblue solid;
+  background-color: white;
+}
+.calcModeButton:focus{
+	outline: none;
+}
+.selectedMode{
+	background-color: lightblue;
+	color: white;
+}
+/*計算入力 and 結果表示エリア*/
+div.calcArea{
+	display: flex;
+	flex-direction: row;
+}
+div.calcArea > *:not(:last-child){
+	margin-right: 5px;
+}
+.calcMode{
+	width: 30px;
+  text-align: center;
+}
+.calcMode > span{
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0px 5px;
+}
+.calcArea input{
+	padding-right: 5px;
+	text-align: right;
+}
+.calcResult{
+	height: 30px;
+	width: 100%;
+	font-size: 20px;
+	background-color: gainsboro;
+  text-align: center;
+}
