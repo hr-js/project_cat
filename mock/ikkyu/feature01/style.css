@@ -1,69 +1,40 @@
 @charset "UTF-8";
+.contents{
+	position: relative;
+	height: 400px;
+	border: 1px solid red;
+	box-sizing: border-box;
+}
+button{
+	padding: 10px;
+  margin: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 20px;
+}
+.cat_body{
+	position: absolute;
+	display: inline-table;
+	width: 0px;
+	height: 0px;
+	border-radius: 50%;
+	background-color: saddlebrown;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(0px) translateY(0px);
+}
 
-body{
-	margin: 10px;
-	padding: 0px;
+/*css animation*/
+.show_cat_animation{
+	animation-name: cat_show;
+	animation-duration: .5s;
+	animation-timing-function: ease-out;
+	animation-delay: 0s;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
 }
-h1{
-	border-bottom: 2px solid black;
-}
-h2{
-	border-bottom: 1px solid lightgray;
-}
-table, th, td{
-	border: 1px solid lightgray;
-}
-.question{
-	color: red;
-}
-
-/*計算方法選択エリア*/
-div.selectArea{
-	display: flex;
-	flex-direction: row;
-}
-div.selectArea > button:not(:last-child){
-	margin-right: 10px;
-}
-.calcModeButton{
-	height: 40px;
-	width: 40px;
-  border-radius: 5px;
-  border: 2px lightblue solid;
-  background-color: white;
-}
-.calcModeButton:focus{
-	outline: none;
-}
-.selectedMode{
-	background-color: lightblue;
-	color: white;
-}
-/*計算入力 and 結果表示エリア*/
-div.calcArea{
-	display: flex;
-	flex-direction: row;
-}
-div.calcArea > *:not(:last-child){
-	margin-right: 5px;
-}
-.calcMode{
-	width: 30px;
-  text-align: center;
-}
-.calcMode > span{
-	display: inline-block;
-	vertical-align: middle;
-	padding: 0px 5px;
-}
-.calcArea input{
-	padding-right: 5px;
-	text-align: right;
-}
-.calcResult{
-	height: 30px;
-	width: 100%;
-	font-size: 20px;
-	background-color: gainsboro;
-  text-align: center;
+@keyframes cat_show{
+	0% {width: 0px; height: 0; transform: translateX(0px) translateY(0px);}
+	100% {width: 150px; height: 120px; transform: translateX(-75px) translateY(0px);}
 }
