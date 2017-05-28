@@ -46,23 +46,36 @@ textarea {
   font-size: 20pt;
 }
 
-button {
-  width: 60px;
-    height: 65px;
-    margin-right: 2.3em;
-    margin-bottom: 1.5em;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    border-radius: 70%;
-    background-color: orange;
-    border: solid 1px brown;
+.nikubtn{
+  height: 120px;
+    width: 120px;
+    border: 1px solid;
+    position: relative;
+    margin-left: 33em;
+    bottom: 5.8em;
 }
 
-svg {
+button {
+
+
+
+    display: none;
+height: 100%;
+width: 100%;
+}
+
+/*svg {
   position: absolute;
     bottom: 0;
     right: 0;
+}*/
+
+.nikukyu {
+  position: absolute;
+top: 0;
+right: 0;
+height: 120px;
+width: 120px;
 }
 
 .subcylinder {
