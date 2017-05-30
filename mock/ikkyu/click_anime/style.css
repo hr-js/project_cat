@@ -130,11 +130,11 @@ bottom: 0;
 	display: inline-table;
 	width: 0px;
 	height: 0px;
-	top: 0;
-	left: 0;
+	top: 30px;
+	left: 0px;
 	border-radius: 50%;
 	background-color: saddlebrown;
-	transform: translateX(325px) translateY(400px);
+	transform: translateX(300px) translateY(325px);
 }
 
 /*css animation*/

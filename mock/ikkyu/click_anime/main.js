@@ -17,18 +17,13 @@ function click_nikuBtn(e){
     const afterLeft = parseInt($('#neko').css('left'), 10) -35.5;
     $('#neko').animate(
         {
-            width: "75px",
-            height: "60px",
-            left: "-35.5px"
+            width: '75px',
+            height: '60px',
+            top: '-30px',
+            left: '-37.5px'
         },{
             duration : 500,
             easing: "linear",
-            progress: function(animation, progress, remainingMs){
-                const y = 400 - (progress * 60);
-                $('#neko').css({
-                    transform: `translateX(325px) translateY(${y}px)`
-                });
-            },
             complete : goToCylinder
         });
 }
@@ -69,7 +64,7 @@ function goToCylinder(){
         //現在の座標位置を取得
         const point = $targetPath.getPointAtLength(counter * leng);
         const properties = `height: ${neko_height}px; width: ${neko_width}px; `+
-                           `top : 0; left : 0;`+
+                           `top : -30px; left : -37.5px;`+
                            `transform : translate(${point.x}px, ${point.y}px);`
 　       //nekoのstyleを変更する
         $neko.setAttribute('style' , properties);
