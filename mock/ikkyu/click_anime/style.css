@@ -1,0 +1,156 @@
+@charset "UTF-8";
+.contents {
+  height: 700px;
+  width: 1000px;
+  border: 1px solid;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.title {
+  background-color: rgba(255, 0, 0, 0.3);
+  height: 100px;
+}
+
+.text {
+  position: relative;
+  background-color: rgba(0, 255, 0, 0.3);
+  height: 600px;
+  width: 650px;
+}
+
+.cylinder {
+  background-color: rgba(0, 0, 255, 0.3);
+  height: 700px;
+  width: 350px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+form {
+  height: 300px;
+  bottom: 0;
+  position: absolute;
+  width: 650px;
+}
+
+textarea {
+  width: 450px;
+  height: 250px;
+  border: 5px pink solid;
+  margin-left: 2em;
+  font-size: 20pt;
+}
+
+.nikubtn{
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  right: 0;
+  bottom: 2em;
+  border: 1px solid;
+  z-index: 10;
+}
+
+button {
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
+
+.svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.nikukyu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 120px;
+  width: 120px;
+}
+
+.subcylinder {
+  border-radius: 90%/20%;
+}
+.subcylinder::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 2px;
+  width: 174px;
+  height: 108px;
+  border-radius: 55%;
+  background: rgba(255, 100, 100, 0.5);
+}
+.subcylinder::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 2px;
+    width: 176px;
+    height: 108px;
+    border-radius: 55%;
+    background: rgba(255, 100, 100, 0.4);
+
+}
+
+.square {
+  width: 180px;
+height: 600px;
+background: rgba(255,100,100,0.5);
+position: absolute;
+margin-left: 5.5em;
+bottom: 0;
+}
+
+.ellipse {
+  height: 108px;
+  border-radius: 55%;
+}
+
+
+.cat_body{
+	position: absolute;
+	display: inline-table;
+	width: 0px;
+	height: 0px;
+	top: 30px;
+	left: 0px;
+	border-radius: 50%;
+	background-color: saddlebrown;
+	transform: translateX(300px) translateY(325px);
+}
+
+/*css animation*/
+/*.show_cat_animation{
+	animation-name: cat_show;
+	animation-duration: .5s;
+	animation-timing-function: ease-out;
+	animation-delay: 0s;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+}
+@keyframes cat_show{
+	0% {width: 0px; height: 0; transform: translateX(0px) translateY(0px);}
+	100% {width: 150px; height: 120px; transform: translateX(-75px) translateY(0px);}
+}*/
+
+.no_event{
+  pointer-events: none;
+}
