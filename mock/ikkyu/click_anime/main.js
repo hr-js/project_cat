@@ -60,7 +60,7 @@ function goToCylinder(){
 
         //変化値 
         // TODO:だんだん遅くしたい
-        counter += 0.01; 
+        counter += 0.0075; 
         //現在の座標位置を取得
         const point = $targetPath.getPointAtLength(counter * leng);
         const properties = `height: ${neko_height}px; width: ${neko_width}px; `+
