@@ -1,6 +1,7 @@
 $(function() {
   /** 送信ボタンにマウスオーバーした際のイベント */
   $('.nikubtn').mouseover(function() {
+    console.log("mouseover")
     $('button').css("background-color", "#c0fff4");
 
     $('circle').css("fill", "#1e90ff").css("stroke", "#351fff");
@@ -14,4 +15,6 @@ $(function() {
     $('circle').css("fill", "#ffa500").css("stroke", "#a52a2a");
     $('ellipse').css("fill", "#ffa500").css("stroke", "#a52a2a");
   });
+
+
 });
