@@ -1,6 +1,5 @@
 /*
 / mongodbの設定を行う
-/ 
 */
 'use strict';
 let mongodb = require('mongodb');
@@ -12,8 +11,9 @@ mongodb.MongoClient.connect(URL, function(err, database) {
   db = database;
 });
 
-let collection = function( name ) {
-  return db.collection( name );
+// DBに接続する
+let comment = function() {
+  return db.collection('commnent');
 }
 
-module.exports = collection;
+module.exports = comment;
