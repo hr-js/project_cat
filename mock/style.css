@@ -1,137 +1,65 @@
 @charset "UTF-8";
-.contents {
-  height: 700px;
-  width: 1000px;
-  border: 1px solid;
-  position: absolute;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+html,body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.wrap {
+  width: 1100px;
+  height: 100%;
+  margin: 0 auto;
+}
+header{
+  width: 100%;
+  height: 50px;
+  background-color: orange;
+}
+.main{
+  width: 100%;
+  height: calc( 100% - 50px);
+  border: 1px solid black;
+  box-sizing: border-box;
 }
 
-.title {
-  background-color: rgba(255, 0, 0, 0.3);
-  height: 100px;
+.info_bar{
+  width: 100%;
+  height: 40px;
+  color: white;
+  text-align: center;
+  background-color: gray;
+  font-weight: bold;
 }
 
-.text {
-  background-color: rgba(0, 255, 0, 0.3);
-  height: 600px;
-  width: 650px;
+.contents{
+    position: relative;
+    width: 100%;
+    height: calc( 100% - 40px);  
 }
 
-.cylinder {
-  background-color: rgba(0, 0, 255, 0.3);
-  height: 700px;
-  width: 350px;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-form {
-  height: 300px;
-  bottom: 0;
-  position: absolute;
-  width: 650px;
-}
-
-textarea {
-  width: 450px;
-  height: 250px;
-  border: 5px pink solid;
-  margin-left: 2em;
-  font-size: 20pt;
-}
-
-.nikubtn {
-  height: 120px;
+.input_message{
   position: relative;
-  margin-left: 33em;
-  bottom: 5.8em;
-  right: 0.2em;
-}
-
-button {
-  height: 100%;
-  width: 100%;
-  background-color: lightpink;
-  border-radius: 100%;
-  border: none;
-}
-
-.svg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 500px;
   top: 0;
   left: 0;
+  border: 1px solid red;
+  box-sizing: border-box;  
 }
 
-.nikukyu {
+.total_messages{
+  position: relative;
+  width: 500px;
+  border: 1px solid blue;
+  box-sizing: border-box;  
+}
+
+.show_messages{
+  width: 600px;
+  height: 100%;
   position: absolute;
   top: 0;
-  right: 0;
-  height: 120px;
-  width: 120px;
-}
-
-.subcylinder {
-  border-radius: 90%/20%;
-}
-
-.subcylinder::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 2px;
-  width: 174px;
-  height: 108px;
-  border-radius: 55%;
-  background: rgba(255, 100, 100, 0.5);
-}
-
-.subcylinder::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 2px;
-  width: 176px;
-  height: 108px;
-  border-radius: 55%;
-  background: rgba(255, 100, 100, 0.4);
-}
-
-.square {
-  width: 180px;
-  height: 600px;
-  background: rgba(255, 100, 100, 0.5);
-  position: absolute;
-  margin-left: 5.5em;
-  bottom: 0;
-}
-
-.ellipse {
-  height: 108px;
-  border-radius: 55%;
-}
-
-.cat_body{
-	position: absolute;
-	display: inline-table;
-	width: 0px;
-	height: 0px;
-	top: 30px;
-	left: 0px;
-	border-radius: 50%;
-	background-color: saddlebrown;
-	transform: translateX(300px) translateY(325px);
-}
-
-.no_event{
-  pointer-events: none;
+  left: 500px;
+  border: 1px solid green;
+  box-sizing: border-box;  
 }
