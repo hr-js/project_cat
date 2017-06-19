@@ -11,18 +11,21 @@ html,body{
   height: 100%;
   margin: 0 auto;
 }
+/*header*/
 header{
   width: 100%;
   height: 50px;
   background-color: orange;
 }
+/*main*/
 .main{
-  width: 100%;
-  height: calc( 100% - 50px);
-  border: 1px solid black;
-  box-sizing: border-box;
+position: relative;
+    width: 100%;
+    height: calc( 100% - 50px);
+    border: 1px solid black;
+    box-sizing: border-box;
 }
-
+/*情報バー(日付表示)*/
 .info_bar{
   width: 100%;
   height: 40px;
@@ -32,13 +35,16 @@ header{
   font-weight: bold;
 }
 
+/*コンテンツ*/
 .contents{
     position: relative;
     width: 100%;
-    height: calc( 100% - 40px);  
+    height: calc( 100% - 40px);
 }
 
-.input_message{
+
+/*メッセージ入力エリア*/
+.input_area{
   position: relative;
   width: 500px;
   top: 0;
@@ -46,20 +52,77 @@ header{
   border: 1px solid red;
   box-sizing: border-box;  
 }
+.textarea_wrap{
+    margin: 30px 30px 20px 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid darkgray;
+}
+.input_message{
+    display: block;
+    width: 100%;
+    border: none;
+    resize: none;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    font-size: 18px;
+}
+.input_message:focus{
+  outline: 0;
+}
+.textarea_toolbar{
+    background-color: darkgray;
+    height: 30px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: right;
+}
+.textarea_toolbar span{
+  margin-right: 10px;
+}
 
-.total_messages{
+.btn_area{
+  position: relative;
+    text-align: right;  
+}
+.send_message_btn{
+    position: relative;
+    margin: 0px 30px 20px auto;
+    display: block;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+
+
+
+
+.total_area{
   position: relative;
   width: 500px;
   border: 1px solid blue;
   box-sizing: border-box;  
 }
 
-.show_messages{
+.show_area{
   width: 600px;
   height: 100%;
   position: absolute;
   top: 0;
   left: 500px;
   border: 1px solid green;
-  box-sizing: border-box;  
+  box-sizing: border-box; 
+  background-color: antiquewhite; 
+}
+.show_area > div{
+      height: 100%;
+    width: 90%;
+    margin: auto;
+    background-color: white;
+}
+
+.show_area ul{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
