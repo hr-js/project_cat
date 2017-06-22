@@ -33,6 +33,7 @@ position: relative;
   text-align: center;
   background-color: gray;
   font-weight: bold;
+  visibility: hidden;
 }
 
 /*コンテンツ*/
@@ -47,6 +48,7 @@ position: relative;
     animation-name: contents_up_down;
     animation-duration: 2s;
     animation-timing-function: ease;
+    animation-fill-mode: forwards;
 }
 @keyframes contents_up_down{
   0%{ padding-top:80px;}
@@ -78,6 +80,7 @@ position: relative;
     animation-name: into_mail;
     animation-duration: 2s;
     animation-timing-function: ease;
+    animation-fill-mode: forwards;
 }
 @keyframes into_mail{
   0%{ transform: scale(1) translateY(0px); z-index: 15;}
@@ -144,4 +147,31 @@ position: absolute;
     box-sizing: border-box;
     clip-path: polygon(0% 0%, 50% 50% ,100% 0%, 100% 100%, 0% 100%);
     z-index: 10; 
+}
+.mail_top{
+    position: absolute;
+    height: 250px;
+    width: calc(100% - 60px);
+    left: 30px;
+    top: 0;
+    background-color: teal;
+    border-radius: 10px;
+    box-sizing: border-box;
+    clip-path: polygon(0% 0%, 0% 5%,50% 55%, 100% 5% ,100% 0%);
+    z-index: 15; 
+    transform-origin: top;
+    transform: rotateX(270deg);
+    opacity: 0;
+}
+.mail_top_animation{
+    animation-name: close_mail_top;
+    animation-duration: 1.5s;
+    animation-delay: 1.25s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes close_mail_top{
+  0%{ transform: rotateX(270deg); opacity: 0;}
+  100%{ transform: rotateX(0deg); opacity: 1;}
 }
