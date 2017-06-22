@@ -10,29 +10,20 @@
 		<header>header</header>
 		<div class="main">
 			<div class="info_bar">info_bar</div>
-			<div class="contents">
+			<div id="contents" class="contents">
 				<div class="input_area">
-					<div class="textarea_wrap">
+					<div id="textarea_wrap" class="textarea_wrap">
 						<textarea id="input_message" class="input_message" rows="3" cols="128" placeholder="今思っていることを投稿しよう！">
 							TODO:自動リサイズ機能いれたい。_φ(･_･<br>
 							scroll値とtextareaの高さを監視すれば実装可能。余力値ないとスクロール画面がでてしまう
 						</textarea>
 						<div class="textarea_toolbar"><span id="text_length">0/128</span></div>
 					</div>
+					<div class="mail_back"></div>
+					<div class="mail_front"></div>
+
 					<div class="btn_area">
 						<button id="send_message_btn" class="send_message_btn">投稿する</button>
-					</div>
-				</div>
-				<div class="total_area">total_messages</div>
-				<div class="show_area">
-					<div>
-						<!--外枠-->
-						<ul>
-							<li>投稿１</li>
-							<li>投稿2</li>
-							<li>投稿3</li>
-							<li>投稿4</li>
-						</ul>
 					</div>
 				</div>
 			</div>

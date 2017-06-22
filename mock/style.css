@@ -7,7 +7,7 @@ html,body{
   font-size: 16px;
 }
 .wrap {
-  width: 1100px;
+  width: 100%;
   height: 100%;
   margin: 0 auto;
 }
@@ -40,27 +40,56 @@ position: relative;
     position: relative;
     width: 100%;
     height: calc( 100% - 40px);
+    padding-top: 80px;
+}
+
+.contents_animation{
+    animation-name: contents_up_down;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+}
+@keyframes contents_up_down{
+  0%{ padding-top:80px;}
+  50%{ padding-top:200px;}
+  100%{ padding-top:80px;}
 }
 
 
 /*メッセージ入力エリア*/
 .input_area{
-  position: relative;
-  width: 500px;
-  top: 0;
-  left: 0;
-  border: 1px solid red;
-  box-sizing: border-box;  
+position: relative;
+    width: 500px;
+    margin: 0px auto;
 }
+
 .textarea_wrap{
-    margin: 30px 30px 20px 30px;
+    height: 250px;
+    position: relative;
+    margin: 0px 30px 20px 30px;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid darkgray;
+    transition: all 1s ease;
+    z-index: 15;
+    background-color: white;
 }
+
+.textarea_animation{
+    animation-name: into_mail;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+}
+@keyframes into_mail{
+  0%{ transform: scale(1) translateY(0px); z-index: 15;}
+  49%{ transform: scale(0.8) translateY(-270px); z-index: 15;}
+  50%{ transform: scale(0.8) translateY(-270px); z-index: 5;}
+  100%{ transform: scale(0.8) translateY(10px); z-index: 5;}
+}
+
 .input_message{
     display: block;
     width: 100%;
+    height: 210px;
     border: none;
     resize: none;
     box-sizing: border-box;
@@ -93,36 +122,26 @@ position: relative;
     height: 60px;
     width: 60px;
 }
-
-
-
-
-.total_area{
-  position: relative;
-  width: 500px;
-  border: 1px solid blue;
-  box-sizing: border-box;  
+.mail_back{
+position: absolute;
+    height: 250px;
+    width: calc(100% - 60px);
+    left: 30px;
+    top: 0;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    box-sizing: border-box;
+    z-index: 0;
 }
-
-.show_area{
-  width: 600px;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 500px;
-  border: 1px solid green;
-  box-sizing: border-box; 
-  background-color: antiquewhite; 
-}
-.show_area > div{
-      height: 100%;
-    width: 90%;
-    margin: auto;
-    background-color: white;
-}
-
-.show_area ul{
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+.mail_front{
+position: absolute;
+    height: 250px;
+    width: calc(100% - 60px);
+    left: 30px;
+    top: 0;
+    background-color: lightgray;
+    border-radius: 10px;
+    box-sizing: border-box;
+    clip-path: polygon(0% 0%, 50% 50% ,100% 0%, 100% 100%, 0% 100%);
+    z-index: 10; 
 }
