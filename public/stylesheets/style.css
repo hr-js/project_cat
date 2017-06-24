@@ -1,8 +1,177 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@charset "UTF-8";
+html,body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.wrap {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+/*header*/
+header{
+  width: 100%;
+  height: 50px;
+  background-color: orange;
+}
+/*main*/
+.main{
+position: relative;
+    width: 100%;
+    height: calc( 100% - 50px);
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+/*情報バー(日付表示)*/
+.info_bar{
+  width: 100%;
+  height: 40px;
+  color: white;
+  text-align: center;
+  background-color: gray;
+  font-weight: bold;
+  visibility: hidden;
 }
 
-a {
-  color: #00B7FF;
+/*コンテンツ*/
+.contents{
+    position: relative;
+    width: 100%;
+    height: calc( 100% - 40px);
+    padding-top: 80px;
+}
+
+.contents_animation{
+    animation-name: contents_up_down;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+@keyframes contents_up_down{
+  0%{ padding-top:80px;}
+  50%{ padding-top:200px;}
+  100%{ padding-top:80px;}
+}
+
+
+/*メッセージ入力エリア*/
+.input_area{
+position: relative;
+    width: 500px;
+    margin: 0px auto;
+}
+
+.textarea_wrap{
+    height: 250px;
+    position: relative;
+    margin: 0px 30px 20px 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid darkgray;
+    transition: all 1s ease;
+    z-index: 15;
+    background-color: white;
+}
+
+.textarea_animation{
+    animation-name: into_mail;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+@keyframes into_mail{
+  0%{ transform: scale(1) translateY(0px); z-index: 15;}
+  49%{ transform: scale(0.8) translateY(-270px); z-index: 15;}
+  50%{ transform: scale(0.8) translateY(-270px); z-index: 5;}
+  100%{ transform: scale(0.8) translateY(10px); z-index: 5;}
+}
+
+.input_message{
+    display: block;
+    width: 100%;
+    height: 210px;
+    border: none;
+    resize: none;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    font-size: 18px;
+}
+.input_message:focus{
+  outline: 0;
+}
+.textarea_toolbar{
+    background-color: darkgray;
+    height: 30px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: right;
+}
+.textarea_toolbar span{
+  margin-right: 10px;
+}
+
+.btn_area{
+  position: relative;
+    text-align: right;  
+}
+.send_message_btn{
+    position: relative;
+    margin: 0px 30px 20px auto;
+    display: block;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+}
+.mail_back{
+position: absolute;
+    height: 250px;
+    width: calc(100% - 60px);
+    left: 30px;
+    top: 0;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    box-sizing: border-box;
+    z-index: 0;
+}
+.mail_front{
+position: absolute;
+    height: 250px;
+    width: calc(100% - 60px);
+    left: 30px;
+    top: 0;
+    background-color: lightgray;
+    border-radius: 10px;
+    box-sizing: border-box;
+    clip-path: polygon(0% 0%, 50% 50% ,100% 0%, 100% 100%, 0% 100%);
+    z-index: 10; 
+}
+.mail_top{
+    position: absolute;
+    height: 250px;
+    width: calc(100% - 60px);
+    left: 30px;
+    top: 0;
+    background-color: teal;
+    border-radius: 10px;
+    box-sizing: border-box;
+    clip-path: polygon(0% 0%, 0% 5%,50% 55%, 100% 5% ,100% 0%);
+    z-index: 15; 
+    transform-origin: top;
+    transform: rotateX(270deg);
+    opacity: 0;
+}
+.mail_top_animation{
+    animation-name: close_mail_top;
+    animation-duration: 1.5s;
+    animation-delay: 1.25s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes close_mail_top{
+  0%{ transform: rotateX(270deg); opacity: 0;}
+  100%{ transform: rotateX(0deg); opacity: 1;}
 }
