@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function(e){
 
         const data = {
           message: 'message',
-          date: 'newDate()'
+          date: newDate()
         };
 
          const xhr = new XMLHttpRequest();
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function(e){
               const data = xhr.responseText;
               console.log('成功！！：' + data);
             } else{
-              console.log('失敗：'+xhr.statusText);
+              console.log('m9(^Д^)ﾌﾟｷﾞｬｰ：'+xhr.statusText);
             }
             break;
            }
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function(e){
          xhr.setRequestHeader('Content-Type','application/json');
          xhr.send(data);
          xhr.abort();
-    )};
+    });
 
 });
 
