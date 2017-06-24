@@ -10,16 +10,36 @@ document.addEventListener('DOMContentLoaded', function(e){
         e.preventDefault();
 
         // 2. formを取得
-        const form = document.getElementsByTagName('form').form; 
-        
+        const form = document.getElementsByTagName('form').form;
+
         // 3. メッセージを取得
         const message = form.getElementsByTagName('textarea').input_message.value;
 
         // 4. ajax通信
 
+        const data = {
+          message: 'message',
+          date: 'newDate()'
+        };
 
+         const xhr = new XMLHttpRequest();
 
-    });
+         xhr.onreadystagechange = function(){
+           if (xhr.readyState === 4) {
+            if(xhr.status == 200 || xhr.status == 304){
+              const data = xhr.responseText;
+              console.log('成功！！：' + data);
+            } else{
+              console.log('失敗：'+xhr.statusText);
+            }
+            break;
+           }
+         }
+         xhr.open('POST', 'http://localhost:3000',false);
+         xhr.setRequestHeader('Content-Type','application/json');
+         xhr.send(data);
+         xhr.abort();
+    );
 
 });
 
