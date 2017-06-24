@@ -32,10 +32,9 @@ document.addEventListener('DOMContentLoaded', function(e){
             } else{
               console.log('m9(^Д^)ﾌﾟｷﾞｬｰ：'+xhr.statusText);
             }
-            break;
            }
          };
-         xhr.open('POST', 'http://localhost:3000',false);
+         xhr.open('POST', 'http://localhost:3000/comment',false);
          xhr.setRequestHeader('Content-Type','application/json');
          xhr.send(data);
          xhr.abort();
