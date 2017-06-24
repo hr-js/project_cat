@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function(e){
 
         const data = {
           message: 'message',
-          date: newDate()
+          date: new Date()
         };
 
          const xhr = new XMLHttpRequest();
