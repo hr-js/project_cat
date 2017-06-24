@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function(e){
             }
             break;
            }
-         }
+         };
          xhr.open('POST', 'http://localhost:3000',false);
          xhr.setRequestHeader('Content-Type','application/json');
          xhr.send(data);
