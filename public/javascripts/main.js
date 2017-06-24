@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function(e){
          xhr.setRequestHeader('Content-Type','application/json');
          xhr.send(data);
          xhr.abort();
-    );
+    )};
 
 });
 
