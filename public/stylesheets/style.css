@@ -25,7 +25,7 @@ position: relative;
     border: 1px solid black;
     box-sizing: border-box;
 }
-/*情報バー(日付表示)*/
+/*情報バー*/
 .info_bar{
   width: 100%;
   height: 40px;
@@ -63,6 +63,64 @@ position: relative;
     width: 500px;
     margin: 0px auto;
 }
+
+.form{
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: translateX(0);
+  opacity: 1;
+}
+.send_mail_animation{
+    animation-name: send_mail;
+    animation-duration: 0.5s;
+    animation-delay: 3.75s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+@keyframes send_mail{
+  0%{ transform: translateX(0); opacity: 1;}
+  100%{ transform: translateX(100%); opacity: 0;}
+}
+
+.result{
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+.result > div{
+  flex-direction: row;
+  font-size: 30px;
+}
+.show_result_animation{
+    animation-name: show_result;
+    animation-duration: 2s;
+    animation-delay: 4.5s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+@keyframes show_result{
+  0%{opacity: 0;}
+  25%{opacity: 1;}
+  75%{opacity: 1;}
+  100%{opacity: 0;}
+}
+
+
+
+
+
+
+
+
+
+
 
 .textarea_wrap{
     height: 250px;
@@ -170,8 +228,44 @@ position: absolute;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
-
 @keyframes close_mail_top{
   0%{ transform: rotateX(270deg); opacity: 0;}
   100%{ transform: rotateX(0deg); opacity: 1;}
+}
+
+/*猫アイコン*/
+.cat_icon{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 90px;
+  left: 215px;
+  padding: 5px;
+  background-color: white;
+  border: 5px solid #fe18ae;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 0;
+  transform: rotateX(-45deg) scale(9, 9);
+  opacity: 0;
+}
+
+.cat{
+  width: 50px;
+  height: 50px;
+}
+
+.cat_icon_animation{
+    animation-name: seal_cat_icon;
+    animation-duration: 0.75s;
+    animation-delay: 2.75s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+@keyframes seal_cat_icon{
+  0%{ transform: rotate(-30deg) scale(9, 9); opacity: 0.75; z-index: 20;}
+  50%{ transform: rotate(-30deg) scale(1, 1); opacity: 1; z-index: 20;}
+  75%{ transform: rotate(-30deg) scale(1, 1); opacity: 1; z-index: 20;}
+  95%{ transform: rotate(10deg) scale(1, 1); opacity: 1; z-index: 20;}
+  100%{ transform: rotate(0deg) scale(1, 1); opacity: 1;z-index: 20;}
 }

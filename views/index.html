@@ -1,38 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="stylesheets/style.css" />
-	<title>不満解消アプリ</title>
-</head>
-<body>
-	<div class="wrap">
-		<header>header</header>
-		<div class="main">
-			<div class="info_bar">info_bar</div>
-			<div id="contents" class="contents">
-				<div class="input_area">
-                    <form id="form">
-					<div id="textarea_wrap" class="textarea_wrap">
-						<textarea id="input_message" class="input_message" rows="3" cols="128" placeholder="今思っていることを投稿しよう！">
-							TODO:自動リサイズ機能いれたい。_φ(･_･<br>
-							scroll値とtextareaの高さを監視すれば実装可能。余力値ないとスクロール画面がでてしまう
-						</textarea>
-						<div class="textarea_toolbar"><span id="text_length">0/128</span></div>
-					</div>
-					<div class="mail_back"></div>
-					<div class="mail_front"></div>
-					<div id="mail_top" class="mail_top"></div>
 
-					<div class="btn_area">
-						<button id="send_message_btn" class="send_message_btn">投稿する</button>
-					</div>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <title>不満解消アプリ</title>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>header</header>
+        <div class="main">
+            <div class="info_bar">info_bar</div>
+            <div id="contents" class="contents">
+                <div class="input_area">
+                    <div id="result" class="result"><div>送信が完了しました!!</div></div>
+                    <form id="form" class="form">
+                        <div id="textarea_wrap" class="textarea_wrap">
+                            <textarea id="input_message" class="input_message" rows="3" cols="128" placeholder="今思っていることを投稿しよう！"></textarea>
+                            <div class="textarea_toolbar"><span id="text_length">0/128</span></div>
+                        </div>
+                        <div class="mail_back"></div>
+                        <div class="mail_front"></div>
+                        <div id="mail_top" class="mail_top"></div>
+                        <div id="cat_icon" class="cat_icon">
+                            <img src="/images/ANGRY_cat.jpg" class="cat">
+                        </div>
+                        <div class="btn_area">
+                            <button id="send_message_btn" class="send_message_btn">投稿する</button>
+                        </div>
                     </form>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script src="javascripts/main.js"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="javascripts/main.js"></script>
 </body>
 
 </html>
