@@ -132,8 +132,8 @@ position: relative;
     transition: all 1s ease;
     z-index: 15;
     background-color: white;
+    opacity: 1;
 }
-
 .textarea_animation{
     animation-name: into_mail;
     animation-duration: 2s;
@@ -146,6 +146,24 @@ position: relative;
   50%{ transform: scale(0.8) translateY(-270px); z-index: 5;}
   100%{ transform: scale(0.8) translateY(10px); z-index: 5;}
 }
+
+.show_textarea_animation{
+    animation-name: show_textarea;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+@keyframes show_textarea{
+  0%{ transform: scale(0.8); opacity: 0; z-index: 5;}
+  100%{ transform: scale(1); opacity: 1; z-index: 15;}
+}
+
+
+
+
+
+
+
 
 .input_message{
     display: block;
