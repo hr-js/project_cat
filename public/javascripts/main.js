@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function(e){
         // 4. ajax通信
 
         const data = {
-          message: 'message',
+          message: message,
           date: new Date()
         };
 
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function(e){
             }
            }
          };
-         xhr.open('POST', 'http://localhost:3000/comment',false);
+         xhr.open('POST', 'http://localhost:3000/comment/',true);
          xhr.setRequestHeader('Content-Type','application/json');
          xhr.send(data);
          xhr.abort();
