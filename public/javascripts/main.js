@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
         if (xhr.status == 200 || xhr.status == 304) {
           const data = xhr.responseText;
           console.log('成功！！：' + data);
-          // success();
+          success();
+          xhr.abort();
         } else {
           console.log('m9(^Д^)ﾌﾟｷﾞｬｰ：' + xhr.statusText);
-          success();
         }
       }
     };
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     xhr.open('POST', 'http://localhost:3000/comment', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
-    xhr.abort();
+
 
   });
 
@@ -90,11 +90,13 @@ function success() {
     // アニメーションで使用したクラスを初期化
     contents.classList.remove('contents_animation');
     textarea.classList.remove('textarea_animation');
+    textarea.value = '';
     mail_top.classList.remove('mail_top_animation');
     send_btn.style.visibility = '';
     cat_icon.classList.remove('cat_icon_animation');
     mail_form.classList.remove('send_mail_animation');
     result.classList.remove('show_result_animation');
+
     // formを出す
     const mail_back = document.getElementById('mail_back');
     mail_back.style.visibility = 'hidden';
