@@ -6,10 +6,10 @@ let comment = require('./rakusjs_module/db/mongoCollectionComment');
 
 /* 投稿内容をDBにinsertする */
 router.post('/', function (req, res, next) {
-
+   
     // insert
     try {
-        comment().insertOne(req.query);
+        comment().insertOne(req.body);
         res.status(200).json({
             'status': true
         });
