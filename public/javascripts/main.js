@@ -29,10 +29,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
         if (xhr.status == 200 || xhr.status == 304) {
           const data = xhr.responseText;
           console.log('成功！！：' + data);
-          // success();
+          xhr.abort();
+          success();
         } else {
           console.log('m9(^Д^)ﾌﾟｷﾞｬｰ：' + xhr.statusText);
-          success();
+          // success();
         }
       }
     };
@@ -40,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
     xhr.open('POST', 'http://localhost:3000/comment', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
-    xhr.abort();
 
   });
 
