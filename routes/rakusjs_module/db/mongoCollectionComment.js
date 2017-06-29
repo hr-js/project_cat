@@ -13,7 +13,7 @@ mongodb.MongoClient.connect(URL, function(err, database) {
 
 // DBに接続する
 let comment = function() {
-  return db.collection('commnent');
+  return db.collection('comment');
 }
 
 module.exports = comment;
