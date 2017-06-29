@@ -9,13 +9,13 @@
 ## 2. yarn(npmのようなパッケージマネージャー)インストール
 `npm install -g yarn`
 
-## 3. packageをインストール
+## 3. packageをインストール
 ### package.jsonがあるディレクトリで以下のコマンドを実行  
 `yarn install`  
 
 ## 4. mongoDBをインストール
 `brew install mongodb`
-### mongoDB起動
+### mongoDB起動
 `brew services start mongodb`
 ### mongoDB接続
 `sudo mongo`
