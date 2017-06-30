@@ -14,5 +14,5 @@ const server = http.createServer(function(req, res){
 const port = 3030; // ポート番号
 /** サーバー待ち受け状態 */
 server.listen(port, function(){
-  console.log('Ajax server started on port ${port}')
+  console.log(`Ajax server started on port ${port}`)
 });
