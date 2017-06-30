@@ -2,14 +2,12 @@
 
 // ノードが読み込まれたときに処理を実行する
 document.addEventListener('DOMContentLoaded', function (e) {
-
   const btn = document.getElementById('send_message_btn');
-  btn.addEventListener('click', function (e) {
 
+  btn.addEventListener('click', function (e) {
     e.preventDefault();
     const form = document.getElementsByTagName('form').form;
     const message = form.getElementsByTagName('textarea').input_message.value;
-
     const data = {
       message: message,
       date: new Date()
@@ -20,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   // textareaにフォーカスインする
   document.getElementById('input_message').focus();
-
 });
 
 function postComment(data) {
@@ -131,16 +128,16 @@ function resultCallbackCreate(target) {
 function textareaCallbackCreate(target) {
   // 初期化アニメーション後の処理
   return function textareaCallback(e) {
-      //初期化
-      target.textarea.classList.remove('show_textarea_animation');
-      target.mail_back.style.visibility = '';
-      target.mail_front.style.visibility = '';
-      target.mail_top.style.visibility = '';
+    //初期化
+    target.textarea.classList.remove('show_textarea_animation');
+    target.mail_back.style.visibility = '';
+    target.mail_front.style.visibility = '';
+    target.mail_top.style.visibility = '';
 
-      // focusイン
-      target.textarea.focus();
+    // focusイン
+    target.textarea.focus();
 
-      // イベントを解除
-      target.textarea.removeEventListener('animationend', textareaCallback);
+    // イベントを解除
+    target.textarea.removeEventListener('animationend', textareaCallback);
   }
 }
