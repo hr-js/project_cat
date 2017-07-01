@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     const form = document.getElementsByTagName('form').form;
     const message = form.getElementsByTagName('textarea').input_message.value;
     const data = {
-      message: message,
+      message,
       date: new Date()
     };
 
@@ -20,21 +20,19 @@ document.addEventListener('DOMContentLoaded', function (e) {
   document.getElementById('input_message').focus();
 });
 
+function xhrErrorHandler(res){
+  if(res.ok) return res;
+  throw Error(res.statusText);
+}
+
 function postComment(data) {
-  const xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200 || xhr.status == 304) {
-        success();
-      } else {
-        console.log('m9(^Д^)ﾌﾟｷﾞｬｰ：' + xhr.statusText);
-      }
-      xhr.abort();
-    }
-  };
-  xhr.open('POST', 'http://localhost:3000/comment', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.send(JSON.stringify(data));
+  fetch('http://localhost:3000/comment',{
+    method: 'POST',
+    body: JSON.stringify(data),
+    mode: 'cors'
+  }).then(xhrErrorHandler)
+    .then(success)
+    .catch(err => console.error(err))
 }
 
 // 通信成功時のコールバック
@@ -43,18 +41,13 @@ function success() {
     'contents', 'textarea_wrap', 'mail_top',
     'send_message_btn', 'cat_icon', 'form',
     'result', 'mail_back', 'mail_front'
-  ]
+  ];
 
-  const nodes = idNames.map(function(id) {
-    return [id, document.getElementById(id)]
-  })
-
-  const target = new Map(nodes)
+  const nodes = idNames.map(id => [id, document.getElementById(id)]);
+  const target = new Map(nodes);
 
   // アニメーションの開始
-  target.forEach(function(node) {
-    node.classList.add('animation');
-  });
+  target.forEach(node => node.classList.add('animation'));
 
   result.addEventListener('animationend', resultCallbackCreate(target));
 }
@@ -63,9 +56,7 @@ function animationInitialize(target) {
   // formを隠す
   target.get('form').style.visibility = 'hidden';
 
-  target.forEach(function (node) {
-    node.classList.remove('animation');
-  });
+  target.forEach(node => node.classList.remove('animation'));
 
   // 入力したメッセージ(あれな内容)を抹消
   document.getElementById('input_message').value = '';
@@ -103,10 +94,7 @@ function textareaCallbackCreate(target) {
     target.get('mail_front').style.visibility = '';
     target.get('mail_top').style.visibility = '';
 
-    // focusイン
     textarea.focus();
-
-    // イベントを解除
     textarea.removeEventListener('animationend', textareaCallback);
   }
 }
