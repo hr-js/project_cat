@@ -50,7 +50,7 @@ function success() {
     return node.classList.add('animation');
   });
 
-  target.result.addEventListener('animationend', resultCallbackCreate(target));
+  target.get('result').addEventListener('animationend', resultCallbackCreate(target));
 }
 
 function animationInitialize(target) {

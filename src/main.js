@@ -49,7 +49,7 @@ function success() {
   // アニメーションの開始
   target.forEach(node => node.classList.add('animation'));
 
-  target.result.addEventListener('animationend', resultCallbackCreate(target));
+  target.get('result').addEventListener('animationend', resultCallbackCreate(target));
 }
 
 function animationInitialize(target) {
