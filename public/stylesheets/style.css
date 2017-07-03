@@ -287,22 +287,3 @@ position: absolute;
   95%{ transform: rotate(10deg) scale(1, 1); opacity: 1; z-index: 20;}
   100%{ transform: rotate(0deg) scale(1, 1); opacity: 1;z-index: 20;}
 }
-
-
-/* 投稿件数表示エリア */
-.info_wrap {
-  margin: 0px 30px 20px 30px;
-  border-radius: 10px;
-  height: 50px;
-  border: 1px solid darkgray;
-}
-
-#info_area {
-  position: relative;
-  width: 500px;
-  margin: 0px auto;
-}
-
-#today_post {
-  padding: 15px 20px;
-}
