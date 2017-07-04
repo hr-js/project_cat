@@ -9,18 +9,19 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    if(message == ""){
+    if (message == "") {
       inputError();
-    }else {
+    } else {
       removeError();
 
-    var data = {
-      message: message,
-      date: new Date()
-    };
+      var data = {
+        message: message,
+        date: new Date()
+      };
 
-    postComment(data);
- }});
+      postComment(data);
+    }
+  });
 
   // textareaにフォーカスインする
   document.getElementById('input_message').focus();
@@ -107,39 +108,39 @@ function textareaCallbackCreate(target) {
   };
 }
 
-function inputError(){
+function inputError() {
   var error = document.getElementById('error_text');
   var redError = error.setAttribute('class', 'error');
   var textError = document.createTextNode('文字を入力してください');
   error.appendChild(textError);
 }
 
-function removeError(){
-  
-}
+function removeError() {}
 
-(function() {
+(function () {
 
   /** 引数の日付の投稿件数を取得する | default: new Date */
-  function getTodaysPostCount(date = (new Date())) {
-    
-    let xhr = new XMLHttpRequest();
+  function getTodaysPostCount() {
+    var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+
+
+    var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
 
         if (xhr.status == 200 || xhr.status == 304) {
           // 成功時
-          document.getElementById('today_post').textContent = `本日の投稿件数：${JSON.parse(xhr.responseText).count}件`;
+          document.getElementById('today_post').textContent = '\u672C\u65E5\u306E\u6295\u7A3F\u4EF6\u6570\uFF1A' + JSON.parse(xhr.responseText).count + '\u4EF6';
         } else {
           // 失敗時
-          console.log(`m9(^Д^)ﾌﾟｷﾞｬｰ： ${xhr.statusText}`);
+          console.log('m9(^\u0414^)\uFF8C\uFF9F\uFF77\uFF9E\uFF6C\uFF70\uFF1A ' + xhr.statusText);
         }
         // 接続を切る
         xhr.abort();
       }
     };
     // 接続
-    xhr.open('GET', `http://localhost:3000/comment/count?date=${date.toJSON()}`, true);
+    xhr.open('GET', 'http://localhost:3000/comment/count?date=' + date.toJSON(), true);
     xhr.send();
   }
   getTodaysPostCount();
