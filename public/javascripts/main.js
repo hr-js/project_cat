@@ -9,13 +9,18 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
+    if(message == ""){
+      inputError();
+    }else {
+      removeError();
+
     var data = {
       message: message,
       date: new Date()
     };
 
     postComment(data);
-  });
+ }});
 
   // textareaにフォーカスインする
   document.getElementById('input_message').focus();
@@ -100,4 +105,15 @@ function textareaCallbackCreate(target) {
     textarea.focus();
     textarea.removeEventListener('animationend', textareaCallback);
   };
+}
+
+function inputError(){
+  var error = document.getElementById('error_text');
+  var redError = error.setAttribute('class', 'error');
+  var textError = document.createTextNode('文字を入力してください');
+  error.appendChild(textError);
+}
+
+function removeError(){
+  
 }
