@@ -33,8 +33,13 @@ function xhrErrorHandler(res) {
 }
 
 function postComment(data) {
+
+  var myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+
   fetch('http://localhost:3000/comment', {
     method: 'POST',
+    headers: myHeaders,
     body: JSON.stringify(data),
     mode: 'cors'
   }).then(xhrErrorHandler).then(success).catch(function (err) {
