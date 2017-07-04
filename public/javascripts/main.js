@@ -117,3 +117,30 @@ function inputError(){
 function removeError(){
   
 }
+
+(function() {
+
+  /** 引数の日付の投稿件数を取得する | default: new Date */
+  function getTodaysPostCount(date = (new Date())) {
+    
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+
+        if (xhr.status == 200 || xhr.status == 304) {
+          // 成功時
+          document.getElementById('today_post').textContent = `本日の投稿件数：${JSON.parse(xhr.responseText).count}件`;
+        } else {
+          // 失敗時
+          console.log(`m9(^Д^)ﾌﾟｷﾞｬｰ： ${xhr.statusText}`);
+        }
+        // 接続を切る
+        xhr.abort();
+      }
+    };
+    // 接続
+    xhr.open('GET', `http://localhost:3000/comment/count?date=${date.toJSON()}`, true);
+    xhr.send();
+  }
+  getTodaysPostCount();
+})();
