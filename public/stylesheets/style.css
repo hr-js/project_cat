@@ -38,7 +38,7 @@ position: relative;
   text-align: center;
   background-color: gray;
   font-weight: bold;
-  visibility: hidden;
+  visibility: visible;
 }
 
 .contents{
@@ -305,4 +305,10 @@ position: absolute;
 @keyframes show_textarea{
   0%{ transform: scale(0.8); opacity: 0; z-index: 5;}
   100%{ transform: scale(1); opacity: 1; z-index: 15;}
+}
+
+.error {
+  font-weight: bold;
+  color: red;
+  text-align: center;
 }
