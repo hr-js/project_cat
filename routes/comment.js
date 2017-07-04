@@ -6,7 +6,6 @@ let comment = require('./rakusjs_module/db/mongoCollectionComment');
 
 /** 投稿内容をDBにinsertする */
 router.post('/', function (req, res, next) {
-    
     // insert
     try {
         // toDate:findに影響無いのでコメント->検討中
@@ -25,7 +24,7 @@ router.post('/', function (req, res, next) {
     }
 });
 
-/** 当日の投稿件数を取得 */
+/** 投稿件数を取得 */
 router.get('/count', function (req, res, next) {
     // 年月日のみ取得 
     const TODAY = req.query.date.toString().replace(/T.*$/, '');
