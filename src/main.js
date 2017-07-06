@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    if(message == ""){
+    var whiteLine = /^\n|^\s+\n|^\s+$/;
+    if(whiteLine.test(message) > 0 || message == ""){
       inputError();
     }else {
       removeError();
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
       date: new Date()
     };
 
-    postComment(data);
+      postComment(data);
  }});
 
   // textareaにフォーカスインする
@@ -117,17 +118,18 @@ function inputError(){
   var redError = error.setAttribute('class', 'error');
   var textError = document.createTextNode('文字を入力してください');
   error.appendChild(textError);
+
 }
 
 function removeError(){
-  
+     document.getElementById('error_text').innerHTML="";
 }
 
 (function() {
 
   /** 引数の日付の投稿件数を取得する | default: new Date */
   function getTodaysPostCount(date = (new Date())) {
-    
+
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {

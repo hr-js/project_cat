@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    if (message == "") {
+    var whiteLine = /^\n|^\s+\n|^\s+$/;
+    if (whiteLine.test(message) > 0 || message == "") {
       inputError();
     } else {
       removeError();
@@ -120,7 +121,9 @@ function inputError() {
   error.appendChild(textError);
 }
 
-function removeError() {}
+function removeError() {
+  document.getElementById('error_text').innerHTML = "";
+}
 
 (function () {
 
