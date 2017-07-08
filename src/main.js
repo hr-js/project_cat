@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    var whiteLine = /^\n|^\s+\n|^\s+$/;
-    if(whiteLine.test(message) > 0 || message == ""){
+    let word = message.trim();
+    if(!word){
       inputError();
     }else {
       removeError();
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
       message: message,
       date: new Date()
     };
-
+      wordCount();
       postComment(data);
  }});
 
@@ -123,6 +123,11 @@ function inputError(){
 
 function removeError(){
      document.getElementById('error_text').innerHTML="";
+}
+function wordCount(){
+  console.log("wordword")
+
+
 }
 
 (function() {
