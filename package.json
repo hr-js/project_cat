@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "babel ./src/main.js --out-file ./public/javascripts/main.js",
+    "watch": "babel ./src/main.js --watch --out-file ./public/javascripts/main.js",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -28,6 +30,9 @@
   "homepage": "https://github.com/hr-js/project_cat#readme",
   "main": "app.js",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "eslint": "^4.1.1",
     "jquery": "^3.2.1"
   }
 }
