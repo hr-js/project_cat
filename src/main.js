@@ -7,23 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   btn.addEventListener('click', function (e) {
     e.preventDefault();
+    removeErrorMSG();
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    let sliceMsg = message.slice();
-    countMsg(); //文字数制御
-    // 文字数が129以上の場合、エラーメッセージの初期化は行わない.
-    if(sliceMsg.length >128 ){
-
-    }else {
-      removeErrorMSG(); //エラーメッセージの初期化
-    }
-
-    let word = message.trim(); //メッセージの両端の空白を削除
+    const word = message.trim(); //メッセージの両端の空白を削除
     if(!word){
-
-      inputError();
+      inputError(); //空文字または改行のみのサブミット時にエラーを表示.
     }else {
-    //  countMsg();
 
     var data = {
       message: message,
@@ -37,24 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('input_message').focus();
 });
 
-// テキストエリアに入力された文字の文字数制御
+// テキストエリアに入力された文字数をカウント.
 document.addEventListener('input', function(){
-     let messages = form.getElementsByTagName('textarea').input_message.value;
-     let sliceMsg = messages.slice();
-     let msgLength = sliceMsg.length;
+     const messages = form.getElementsByTagName('textarea').input_message.value;
+     const trimMsg = messages.trim(); //メッセージの両端の空白を削除
+     const msgLength = trimMsg.length;
      document.getElementById('text_length').innerHTML = msgLength + "/128";// 入力文字数をテキストエリア右下に表示させる.
      document.getElementById('error_text').innerHTML = ""; //エラーメッセージの初期化
-
-　　　// 入力した文字数が128文字より多い場合エラーを表示させる.
-     if(msgLength > 128){
-       var lengthError = document.getElementById('error_text');
-       var redError = lengthError.setAttribute('class', 'error');
-       var textError = document.createTextNode('128文字以内で入力してください');
-       lengthError.appendChild(textError);
-       return;
-     }else {
-
-     }
 
 });
 
@@ -155,18 +134,6 @@ function inputError(){
 function removeErrorMSG(){
      document.getElementById('error_text').innerHTML="";
 }
-//文字数制御
-function countMsg(){
-  let messages = form.getElementsByTagName('textarea').input_message.value;
-  let sliceMsg = messages.slice();
-  let msgLength = sliceMsg.length;
-  if(msgLength > 128){
-    return;
-  }else{
-
-  }
-}
-
 
 (function() {
 
