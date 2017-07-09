@@ -7,14 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
   btn.addEventListener('click', function (e) {
     e.preventDefault();
-    removeErrorMSG(); //エラーメッセージの初期化
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
+    let sliceMsg = message.slice();
+    countMsg(); //文字数制御
+    // 文字数が129以上の場合、エラーメッセージの初期化は行わない.
+    if(sliceMsg.length >128 ){
+
+    }else {
+      removeErrorMSG(); //エラーメッセージの初期化
+    }
+
     let word = message.trim(); //メッセージの両端の空白を削除
     if(!word){
 
       inputError();
     }else {
+    //  countMsg();
 
     var data = {
       message: message,
@@ -28,10 +37,23 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('input_message').focus();
 });
 
+// テキストエリアに入力された文字の文字数制御
 document.addEventListener('input', function(){
-     var messages = form.getElementsByTagName('textarea').input_message.value;
-     console.log(messages + "めっせーじ ")
+     let messages = form.getElementsByTagName('textarea').input_message.value;
+     let sliceMsg = messages.slice();
+     let msgLength = sliceMsg.length;
+     document.getElementById('error_text').innerHTML = ""; //エラーメッセージの初期化
 
+　　　// 入力した文字数が128文字より多い場合エラーを表示させる.
+     if(msgLength > 128){
+       var lengthError = document.getElementById('error_text');
+       var redError = lengthError.setAttribute('class', 'error');
+       var textError = document.createTextNode('128文字以内で入力してください');
+       lengthError.appendChild(textError);
+       return;
+     }else {
+
+     }
 
 });
 
@@ -120,7 +142,7 @@ function textareaCallbackCreate(target) {
     textarea.removeEventListener('animationend', textareaCallback);
   };
 }
-
+// 空文字の時のエラーメッセージの表示
 function inputError(){
   var error = document.getElementById('error_text');
   var redError = error.setAttribute('class', 'error');
@@ -128,9 +150,20 @@ function inputError(){
   error.appendChild(textError);
 
 }
-
+// エラーメッセージの初期化
 function removeErrorMSG(){
      document.getElementById('error_text').innerHTML="";
+}
+//文字数制御
+function countMsg(){
+  let messages = form.getElementsByTagName('textarea').input_message.value;
+  let sliceMsg = messages.slice();
+  let msgLength = sliceMsg.length;
+  if(msgLength > 128){
+    return;
+  }else{
+
+  }
 }
 
 
