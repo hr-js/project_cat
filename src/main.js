@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   btn.addEventListener('click', function (e) {
     e.preventDefault();
-    removeErrorMSG();
+    removeErrorMSG(); //エラーメッセージの初期化
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
     const word = message.trim(); //メッセージの両端の空白を削除
