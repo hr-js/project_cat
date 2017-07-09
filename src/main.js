@@ -42,6 +42,7 @@ document.addEventListener('input', function(){
      let messages = form.getElementsByTagName('textarea').input_message.value;
      let sliceMsg = messages.slice();
      let msgLength = sliceMsg.length;
+     document.getElementById('text_length').innerHTML = msgLength + "/128";// 入力文字数をテキストエリア右下に表示させる.
      document.getElementById('error_text').innerHTML = ""; //エラーメッセージの初期化
 
 　　　// 入力した文字数が128文字より多い場合エラーを表示させる.
