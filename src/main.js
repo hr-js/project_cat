@@ -7,24 +7,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
   btn.addEventListener('click', function (e) {
     e.preventDefault();
+    removeErrorMSG(); //エラーメッセージの初期化
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    let word = message.trim();
+    let word = message.trim(); //メッセージの両端の空白を削除
     if(!word){
+
       inputError();
     }else {
-      removeError();
 
     var data = {
       message: message,
       date: new Date()
     };
-      wordCount();
+
       postComment(data);
  }});
 
   // textareaにフォーカスインする
   document.getElementById('input_message').focus();
+});
+
+document.addEventListener('input', function(){
+     var messages = form.getElementsByTagName('textarea').input_message.value;
+     console.log(messages + "めっせーじ ")
+
+
 });
 
 function xhrErrorHandler(res) {
@@ -121,14 +129,10 @@ function inputError(){
 
 }
 
-function removeError(){
+function removeErrorMSG(){
      document.getElementById('error_text').innerHTML="";
 }
-function wordCount(){
-  console.log("wordword")
 
-
-}
 
 (function() {
 
