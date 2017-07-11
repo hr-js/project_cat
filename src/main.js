@@ -7,23 +7,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
   btn.addEventListener('click', function (e) {
     e.preventDefault();
+    removeErrorMSG(); //エラーメッセージの初期化
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    if(message == ""){
-      inputError();
+    const word = message.trim(); //メッセージの両端の空白を削除
+    if(!word){
+      inputError(); //空文字または改行のみのサブミット時にエラーを表示.
     }else {
-      removeError();
 
     var data = {
       message: message,
       date: new Date()
     };
 
-    postComment(data);
+      postComment(data);
  }});
 
   // textareaにフォーカスインする
   document.getElementById('input_message').focus();
+});
+
+// テキストエリアに入力された文字数をカウント.
+document.addEventListener('input', function(){
+     const messages = form.getElementsByTagName('textarea').input_message.value;
+     const trimMsg = messages.trim(); //メッセージの両端の空白を削除
+     const msgLength = trimMsg.length;
+     document.getElementById('text_length').innerHTML = msgLength + "/128";// 入力文字数をテキストエリア右下に表示させる.
+     document.getElementById('error_text').innerHTML = ""; //エラーメッセージの初期化
+
 });
 
 function xhrErrorHandler(res) {
@@ -111,23 +122,24 @@ function textareaCallbackCreate(target) {
     textarea.removeEventListener('animationend', textareaCallback);
   };
 }
-
+// 空文字の時のエラーメッセージの表示
 function inputError(){
   var error = document.getElementById('error_text');
   var redError = error.setAttribute('class', 'error');
   var textError = document.createTextNode('文字を入力してください');
   error.appendChild(textError);
-}
 
-function removeError(){
-  
+}
+// エラーメッセージの初期化
+function removeErrorMSG(){
+     document.getElementById('error_text').innerHTML="";
 }
 
 (function() {
 
   /** 引数の日付の投稿件数を取得する | default: new Date */
   function getTodaysPostCount(date = (new Date())) {
-    
+
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {

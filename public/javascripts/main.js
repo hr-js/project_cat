@@ -7,12 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   btn.addEventListener('click', function (e) {
     e.preventDefault();
+    removeErrorMSG(); //エラーメッセージの初期化
     var form = document.getElementsByTagName('form').form;
     var message = form.getElementsByTagName('textarea').input_message.value;
-    if (message == "") {
-      inputError();
+    var word = message.trim(); //メッセージの両端の空白を削除
+    if (!word) {
+      inputError(); //空文字または改行のみのサブミット時にエラーを表示.
     } else {
-      removeError();
 
       var data = {
         message: message,
@@ -25,6 +26,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // textareaにフォーカスインする
   document.getElementById('input_message').focus();
+});
+
+// テキストエリアに入力された文字数をカウント.
+document.addEventListener('input', function () {
+  var messages = form.getElementsByTagName('textarea').input_message.value;
+  var trimMsg = messages.trim(); //メッセージの両端の空白を削除
+  var msgLength = trimMsg.length;
+  document.getElementById('text_length').innerHTML = msgLength + "/128"; // 入力文字数をテキストエリア右下に表示させる.
+  document.getElementById('error_text').innerHTML = ""; //エラーメッセージの初期化
 });
 
 function xhrErrorHandler(res) {
@@ -112,15 +122,17 @@ function textareaCallbackCreate(target) {
     textarea.removeEventListener('animationend', textareaCallback);
   };
 }
-
+// 空文字の時のエラーメッセージの表示
 function inputError() {
   var error = document.getElementById('error_text');
   var redError = error.setAttribute('class', 'error');
   var textError = document.createTextNode('文字を入力してください');
   error.appendChild(textError);
 }
-
-function removeError() {}
+// エラーメッセージの初期化
+function removeErrorMSG() {
+  document.getElementById('error_text').innerHTML = "";
+}
 
 (function () {
 

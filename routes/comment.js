@@ -9,7 +9,7 @@ router.post('/', function (req, res, next) {
     // insert
     try {
         // toDate:findに影響無いのでコメント->検討中
-        // req.body.date = new Date(req.body.date);
+        req.body.date = new Date(req.body.date);
         comment().insertOne(req.body);
         res.status(200).json({
             'status': true
@@ -26,7 +26,7 @@ router.post('/', function (req, res, next) {
 
 /** 投稿件数を取得 */
 router.get('/count', function (req, res, next) {
-    // 年月日のみ取得 
+    // 年月日のみ取得
     const TODAY = req.query.date.toString().replace(/T.*$/, '');
     try{
         comment().find({date:{"$gt":TODAY}}).toArray(function(err, docs){
