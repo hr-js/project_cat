@@ -3,22 +3,27 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <link rel="stylesheet" href="stylesheets/style.css" />
     <title>不満解消アプリ</title>
 </head>
 
 <body>
     <div class="wrap">
-        <header>header</header>
+        <header>
+            <img class="logo" src="/images/rksdon.png"/>
+            <span id="today_post"></span>
+        </header>
         <div class="main">
-            <div class="info_bar">info_bar</div>
+            <!--<div id="info_bar" class="info_bar">info_bar</div>-->
             <div id="contents" class="contents">
+              <div id="error_text"></div>
                 <div class="input_area">
-                    <div id="result" class="result"><div>送信が完了しました!!</div></div>
+                    <div id="result" class="result">
+                        <div>送信が完了しました!!</div>
+                    </div>
                     <form id="form" class="form">
                         <div id="textarea_wrap" class="textarea_wrap">
-                            <textarea id="input_message" class="input_message" rows="3" cols="128" placeholder="今思っていることを投稿しよう！"></textarea>
+                            <textarea id="input_message" class="input_message" rows="3" maxlength="128" placeholder="今思っていることを投稿しよう！"></textarea>
                             <div class="textarea_toolbar"><span id="text_length">0/128</span></div>
                         </div>
                         <div id="mail_back" class="mail_back"></div>
