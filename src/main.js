@@ -44,7 +44,7 @@
       }else { // NG
 
         //空文字または改行のみのサブミット時にエラーメッセージを表示.
-        inputError(); 
+        inputError();
 
       }
 
@@ -98,7 +98,7 @@
   }
 
   /**
-   * サーバにメッセージを送信する(非同期通信) 
+   * サーバにメッセージを送信する(非同期通信)
    */
   function postComment(data) {
 
@@ -115,6 +115,8 @@
       mode: 'cors'
     }).then(xhrErrorHandler).then(success).catch(function (err) {
       return window.console.error(err);
+    }).fainally(function(){
+      getTodaysPostCount();
     });
   }
 
@@ -239,10 +241,10 @@
 
   /**
    * エラーメッセージの初期化
-   */  
+   */
   function removeErrorMSG(){
     // 子孫ノードを初期化
     document.getElementById('error_text').innerHTML="";
   }
-  
+
 })();
