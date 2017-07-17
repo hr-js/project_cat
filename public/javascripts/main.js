@@ -8,7 +8,6 @@
     /**
      * ノードが読み込まれたときに処理を実行(タイミングは $(); と一緒 )
      */
-
     document.addEventListener('DOMContentLoaded', function () {
 
         // ノード取得
@@ -55,43 +54,6 @@
         /** Enterキーが押された時のイベント */
         document.getElementById('form').addEventListener('keypress', onKeyPress);
 
-        /** e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う */
-        function onKeyPress(e) {
-            if (e.keyCode !== 13 || e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true)) {
-                return false;
-            }
-            console.log('submitされました');
-
-            // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
-            e.preventDefault();
-
-            // ノードを取得
-            var form = document.getElementsByTagName('form').form,
-                message = form.getElementsByTagName('textarea').input_message.value;
-
-            // エラーメッセージの初期化
-            removeErrorMSG();
-
-            // 空文字入力チェック
-            if (message.trim()) {
-                // OK
-
-                // 送信データを作成
-                var data = {
-                    message: message,
-                    date: new Date()
-                };
-
-                // サーバに送信
-                postComment(data);
-            } else {
-                // NG
-
-                //空文字または改行のみのサブミット時にエラーメッセージを表示.
-                inputError();
-            }
-        }
-
         // メッセージが入力された時のイベント
         textArea.addEventListener('input', function () {
 
@@ -124,7 +86,7 @@
             if (xhr.readyState == 4) {
                 if (xhr.status == 200 || xhr.status == 304) {
                     // 成功時
-                    document.getElementById('today_post').textContent = '\u672C\u65E5\u306E\u6295\u7A3F\u4EF6\u6570\uFF1A' + JSON.parse(xhr.responseText).count + '\u4EF6';
+                    document.getElementById('today_post').textContent = '' + JSON.parse(xhr.responseText).count;
                 } else {
                     // 失敗時
                     console.log('m9(^\u0414^)\uFF8C\uFF9F\uFF77\uFF9E\uFF6C\uFF70\uFF1A ' + xhr.statusText);
@@ -280,5 +242,43 @@
     function removeErrorMSG() {
         // 子孫ノードを初期化
         document.getElementById('error_text').innerHTML = "";
+    }
+
+    /**
+     *  e.keyCode=13(Enterキー)のキーが単独で押された場合のみ送信処理を行う
+     */
+    function onKeyPress(e) {
+        if (e.keyCode !== 13 || e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true)) {
+            return false;
+        }
+
+        // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
+        e.preventDefault();
+
+        // ノードを取得
+        var form = document.getElementsByTagName('form').form,
+            message = form.getElementsByTagName('textarea').input_message.value;
+
+        // エラーメッセージの初期化
+        removeErrorMSG();
+
+        // 空文字入力チェック
+        if (message.trim()) {
+            // OK
+
+            // 送信データを作成
+            var data = {
+                message: message,
+                date: new Date()
+            };
+
+            // サーバに送信
+            postComment(data);
+        } else {
+            // NG
+
+            //空文字または改行のみのサブミット時にエラーメッセージを表示.
+            inputError();
+        }
     }
 })();

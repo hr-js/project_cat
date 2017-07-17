@@ -1,5 +1,5 @@
 'use strict';
-(function() {
+(function () {
 
     // 本日の投稿件数を取得：即実行!!!
     getTodaysPostCount();
@@ -7,8 +7,7 @@
     /**
      * ノードが読み込まれたときに処理を実行(タイミングは $(); と一緒 )
      */
-    　
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
 
         // ノード取得
         const btn = document.getElementById('send_message_btn'), // 投稿ボタン
@@ -18,7 +17,7 @@
          * イベント登録
          */
         // 投稿ボタンがクリックされた時のイベント
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
 
             // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
             e.preventDefault();
@@ -54,46 +53,8 @@
         /** Enterキーが押された時のイベント */
         document.getElementById('form').addEventListener('keypress', onKeyPress);
 
-        /** e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う */
-        function onKeyPress(e) {
-            if (e.keyCode !== 13 || (e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true))) {
-                return false;
-            }
-            console.log('submitされました')
-
-            // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
-            e.preventDefault();
-
-            // ノードを取得
-            const form = document.getElementsByTagName('form').form,
-                message = form.getElementsByTagName('textarea').input_message.value;
-
-            // エラーメッセージの初期化
-            removeErrorMSG();
-
-            // 空文字入力チェック
-            if (message.trim()) { // OK
-
-                // 送信データを作成
-                const data = {
-                    message: message,
-                    date: new Date()
-                };
-
-                // サーバに送信
-                postComment(data);
-
-            } else { // NG
-
-                //空文字または改行のみのサブミット時にエラーメッセージを表示.
-                inputError();
-
-            }
-        }
-
-
         // メッセージが入力された時のイベント
-        textArea.addEventListener('input', function() {
+        textArea.addEventListener('input', function () {
 
             // 入力されたメッセージを取得
             const messages = this.value;
@@ -120,11 +81,11 @@
 
         const xhr = new XMLHttpRequest();
 
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200 || xhr.status == 304) {
                     // 成功時
-                    document.getElementById('today_post').textContent = `本日の投稿件数：${JSON.parse(xhr.responseText).count}件`;
+                    document.getElementById('today_post').textContent = `${JSON.parse(xhr.responseText).count}`;
                 } else {
                     // 失敗時
                     console.log(`m9(^Д^)ﾌﾟｷﾞｬｰ： ${xhr.statusText}`);
@@ -174,7 +135,7 @@
         const idNames = ['contents', 'textarea_wrap', 'mail_top', 'send_message_btn', 'cat_icon', 'form', 'result', 'mail_back', 'mail_front'];
 
         // idの配列から、ノード（配列）を取得
-        const nodes = idNames.map(function(id) {
+        const nodes = idNames.map(function (id) {
             return [id, document.getElementById(id)];
         });
 
@@ -182,7 +143,7 @@
         const target = new Map(nodes);
 
         // アニメーションの開始 (送信アニメーション)
-        target.forEach(function(node) {
+        target.forEach(function (node) {
             return node.classList.add('animation');
         });
 
@@ -224,7 +185,7 @@
         // formを隠す
         target.get('form').style.visibility = 'hidden';
 
-        target.forEach(function(node) {
+        target.forEach(function (node) {
             return node.classList.remove('animation');
         });
 
@@ -283,6 +244,44 @@
     function removeErrorMSG() {
         // 子孫ノードを初期化
         document.getElementById('error_text').innerHTML = "";
+    }
+
+    /**
+     *  e.keyCode=13(Enterキー)のキーが単独で押された場合のみ送信処理を行う
+     */
+    function onKeyPress(e) {
+        if (e.keyCode !== 13 || (e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true))) {
+            return false;
+        }
+
+        // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
+        e.preventDefault();
+
+        // ノードを取得
+        const form = document.getElementsByTagName('form').form,
+            message = form.getElementsByTagName('textarea').input_message.value;
+
+        // エラーメッセージの初期化
+        removeErrorMSG();
+
+        // 空文字入力チェック
+        if (message.trim()) { // OK
+
+            // 送信データを作成
+            const data = {
+                message: message,
+                date: new Date()
+            };
+
+            // サーバに送信
+            postComment(data);
+
+        } else { // NG
+
+            //空文字または改行のみのサブミット時にエラーメッセージを表示.
+            inputError();
+
+        }
     }
 
 })();
