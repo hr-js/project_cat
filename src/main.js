@@ -19,7 +19,7 @@
     // 投稿ボタンがクリックされた時のイベント
     btn.addEventListener('click', function(e) {
 
-      // // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
+      //ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
       e.preventDefault();
 
       postMsg(); // エラーメッセージの初期化からサーバーへ送信までの処理
@@ -34,9 +34,8 @@
       if (e.keyCode !== 13 || (e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true))) {
         return false;
       }
-      console.log('submitされました');
 
-      // // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
+      // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
       e.preventDefault();
 
 
@@ -264,44 +263,6 @@
   function removeErrorMSG() {
     // 子孫ノードを初期化
     document.getElementById('error_text').innerHTML = '';
-  }
-
-  /**
-     *  e.keyCode=13(Enterキー)のキーが単独で押された場合のみ送信処理を行う
-     */
-  function onKeyPress(e) {
-    if (e.keyCode !== 13 || (e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true))) {
-      return false;
-    }
-
-    // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
-    e.preventDefault();
-
-    // ノードを取得
-    const form = document.getElementsByTagName('form').form,
-      message = form.getElementsByTagName('textarea').input_message.value;
-
-    // エラーメッセージの初期化
-    removeErrorMSG();
-
-    // 空文字入力チェック
-    if (message.trim()) { // OK
-
-      // 送信データを作成
-      const data = {
-        message: message,
-        date: new Date()
-      };
-
-      // サーバに送信
-      postComment(data);
-
-    } else { // NG
-
-      //空文字または改行のみのサブミット時にエラーメッセージを表示.
-      inputError();
-
-    }
   }
 
 })();
