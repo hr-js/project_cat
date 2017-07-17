@@ -188,7 +188,7 @@
 
     // 入力したメッセージ(あれな内容)を抹消
     document.getElementById('input_message').value = '';
-    document.getElementById('text_length').innerHTML = `0`;
+    document.getElementById('text_length').innerHTML = '0';
   }
 
   /**
