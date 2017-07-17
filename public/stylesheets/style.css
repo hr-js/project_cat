@@ -28,7 +28,7 @@ span#today_post{
   right: 0;
   bottom: 0;
   margin: 5px;
-  color: white;  
+  color: white;
 }
 
 
@@ -125,7 +125,7 @@ position: relative;
     text-align: right;
 }
 
-.textarea_toolbar span{
+.text_length{
   margin-right: 10px;
 }
 
