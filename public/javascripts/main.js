@@ -51,6 +51,45 @@
                 inputError();
             }
         });
+        /** Enterキーが押された時のイベント */
+        document.getElementById('form').addEventListener('keypress', onKeyPress);
+
+        /** e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う */
+        function onKeyPress(e) {
+            if (e.keyCode !== 13 || e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true)) {
+                return false;
+            }
+            console.log('submitされました');
+
+            // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
+            e.preventDefault();
+
+            // ノードを取得
+            var form = document.getElementsByTagName('form').form,
+                message = form.getElementsByTagName('textarea').input_message.value;
+
+            // エラーメッセージの初期化
+            removeErrorMSG();
+
+            // 空文字入力チェック
+            if (message.trim()) {
+                // OK
+
+                // 送信データを作成
+                var data = {
+                    message: message,
+                    date: new Date()
+                };
+
+                // サーバに送信
+                postComment(data);
+            } else {
+                // NG
+
+                //空文字または改行のみのサブミット時にエラーメッセージを表示.
+                inputError();
+            }
+        }
 
         // メッセージが入力された時のイベント
         textArea.addEventListener('input', function () {
