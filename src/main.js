@@ -113,11 +113,7 @@ document.getElementById('today_post').textContent = `${JSON.parse(xhr.responseTe
       headers:myHeaders,
       body: JSON.stringify(data),
       mode: 'cors'
-    }).then(xhrErrorHandler).then(success).catch(function (err) {
-      return window.console.error(err);
-    }).fainally(function(){
-      getTodaysPostCount();
-    });
+    }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(console.error);
   }
 
   /**
