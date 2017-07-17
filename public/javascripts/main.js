@@ -99,7 +99,7 @@
   }
 
   /**
-   * サーバにメッセージを送信する(非同期通信) 
+   * サーバにメッセージを送信する(非同期通信)
    */
   function postComment(data) {
 
@@ -114,9 +114,7 @@
       headers: myHeaders,
       body: JSON.stringify(data),
       mode: 'cors'
-    }).then(xhrErrorHandler).then(success).catch(function (err) {
-      return window.console.error(err);
-    });
+    }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(console.error);
   }
 
   /**
