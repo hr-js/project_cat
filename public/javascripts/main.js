@@ -83,7 +83,7 @@
       if (xhr.readyState == 4) {
         if (xhr.status == 200 || xhr.status == 304) {
           // 成功時
-          document.getElementById('today_post').textContent =  JSON.parse(xhr.responseText).count;
+          document.getElementById('today_post').textContent = '' + JSON.parse(xhr.responseText).count;
         } else {
           // 失敗時
           console.log('m9(^\u0414^)\uFF8C\uFF9F\uFF77\uFF9E\uFF6C\uFF70\uFF1A ' + xhr.statusText);
@@ -116,6 +116,8 @@
       mode: 'cors'
     }).then(xhrErrorHandler).then(success).catch(function (err) {
       return window.console.error(err);
+    }).fainally(function () {
+      getTodaysPostCount();
     });
   }
 

@@ -82,7 +82,7 @@
       if (xhr.readyState == 4) {
         if (xhr.status == 200 || xhr.status == 304) {
           // 成功時
-          document.getElementById('today_post').textContent = ${JSON.parse(xhr.responseText).count}件;
+document.getElementById('today_post').textContent = `${JSON.parse(xhr.responseText).count}`;
         } else {
           // 失敗時
           console.log(`m9(^Д^)ﾌﾟｷﾞｬｰ： ${xhr.statusText}`);
