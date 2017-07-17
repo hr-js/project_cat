@@ -49,7 +49,7 @@
       var messages = this.value;
 
       // 入力文字数をテキストエリア右下に表示させる.
-      document.getElementById('text_length').innerHTML = messages.trim().length + '/128';
+      document.getElementById('text_length').innerHTML = '' + messages.trim().length;
       //エラーメッセージの初期化
       document.getElementById('error_text').innerHTML = '';
     });
@@ -207,7 +207,7 @@
 
     // 入力したメッセージ(あれな内容)を抹消
     document.getElementById('input_message').value = '';
-    document.getElementById('text_length').innerHTML = '0/128';
+    document.getElementById('text_length').innerHTML = '0';
   }
 
   /**
