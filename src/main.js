@@ -44,7 +44,7 @@
       }else { // NG
 
         //空文字または改行のみのサブミット時にエラーメッセージを表示.
-        inputError(); 
+        inputError();
 
       }
 
@@ -82,7 +82,7 @@
       if (xhr.readyState == 4) {
         if (xhr.status == 200 || xhr.status == 304) {
           // 成功時
-          document.getElementById('today_post').textContent = `本日の投稿件数：${JSON.parse(xhr.responseText).count}件`;
+document.getElementById('today_post').textContent = `${JSON.parse(xhr.responseText).count}`;
         } else {
           // 失敗時
           console.log(`m9(^Д^)ﾌﾟｷﾞｬｰ： ${xhr.statusText}`);
@@ -98,7 +98,7 @@
   }
 
   /**
-   * サーバにメッセージを送信する(非同期通信) 
+   * サーバにメッセージを送信する(非同期通信)
    */
   function postComment(data) {
 
@@ -113,9 +113,7 @@
       headers:myHeaders,
       body: JSON.stringify(data),
       mode: 'cors'
-    }).then(xhrErrorHandler).then(success).catch(function (err) {
-      return window.console.error(err);
-    });
+    }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(console.error);
   }
 
   /**
@@ -239,10 +237,10 @@
 
   /**
    * エラーメッセージの初期化
-   */  
+   */
   function removeErrorMSG(){
     // 子孫ノードを初期化
     document.getElementById('error_text').innerHTML="";
   }
-  
+
 })();
