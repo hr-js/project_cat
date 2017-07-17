@@ -6,8 +6,8 @@
   getTodaysPostCount();
 
   /**
-   * ノードが読み込まれたときに処理を実行(タイミングは $(); と一緒 )
-   */
+     * ノードが読み込まれたときに処理を実行(タイミングは $(); と一緒 )
+     */
   document.addEventListener('DOMContentLoaded', function () {
 
     // ノード取得
@@ -16,40 +16,31 @@
     textArea = document.getElementById('input_message'); // テキストエリア
 
     /**
-     * イベント登録
-     */
+         * イベント登録
+         */
     // 投稿ボタンがクリックされた時のイベント
     btn.addEventListener('click', function (e) {
+
+      //ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
+      e.preventDefault();
+
+      postMsg(); // エラーメッセージの初期化からサーバーへ送信までの処理
+    });
+
+    /** Enterキーが押された時のイベント */
+    document.getElementById('form').addEventListener('keypress', onKeyPress);
+
+    /** e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う */
+    function onKeyPress(e) {
+      if (e.keyCode !== 13 || e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true)) {
+        return false;
+      }
 
       // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
       e.preventDefault();
 
-      // ノードを取得
-      var form = document.getElementsByTagName('form').form,
-          message = form.getElementsByTagName('textarea').input_message.value;
-
-      // エラーメッセージの初期化
-      removeErrorMSG();
-
-      // 空文字入力チェック
-      if (message.trim()) {
-        // OK
-
-        // 送信データを作成
-        var data = {
-          message: message,
-          date: new Date()
-        };
-
-        // サーバに送信
-        postComment(data);
-      } else {
-        // NG
-
-        //空文字または改行のみのサブミット時にエラーメッセージを表示.
-        inputError();
-      }
-    });
+      postMsg(); // エラーメッセージの初期化からサーバーへ送信までの処理
+    }
 
     // メッセージが入力された時のイベント
     textArea.addEventListener('input', function () {
@@ -60,7 +51,7 @@
       // 入力文字数をテキストエリア右下に表示させる.
       document.getElementById('text_length').innerHTML = messages.trim().length + '/128';
       //エラーメッセージの初期化
-      document.getElementById('error_text').innerHTML = "";
+      document.getElementById('error_text').innerHTML = '';
     });
 
     // textareaにフォーカスインする
@@ -70,9 +61,9 @@
   // ここから関数を定義
 
   /**
-   * 引数の日付の投稿件数を取得する | default: new Date
-   * （非同期通信）
-   */
+     * 引数の日付の投稿件数を取得する | default: new Date
+     * （非同期通信）
+     */
   function getTodaysPostCount() {
     var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
 
@@ -97,10 +88,40 @@
     xhr.open('GET', 'http://localhost:3000/comment/count?date=' + date.toJSON(), true);
     xhr.send();
   }
+  /** エラーメッセージの初期化からサーバーへ送信までの処理 */
+  function postMsg() {
+
+    // ノードを取得
+    var form = document.getElementsByTagName('form').form,
+        message = form.getElementsByTagName('textarea').input_message.value;
+
+    // エラーメッセージの初期化
+    removeErrorMSG();
+
+    // 空文字入力チェック
+    if (message.trim()) {
+      // OK
+
+      // 送信データを作成
+      var data = {
+        message: message,
+        date: new Date()
+      };
+      document.activeElement.blur(); // focusを外す
+
+      // サーバに送信
+      postComment(data);
+    } else {
+      // NG
+
+      //空文字または改行のみのサブミット時にエラーメッセージを表示.
+      inputError();
+    }
+  }
 
   /**
-   * サーバにメッセージを送信する(非同期通信)
-   */
+     * サーバにメッセージを送信する(非同期通信)
+     */
   function postComment(data) {
 
     // headerオブジェクトを生成
@@ -118,16 +139,16 @@
   }
 
   /**
-   * サーバ通信に失敗した時のコールバック
-   */
+     * サーバ通信に失敗した時のコールバック
+     */
   function xhrErrorHandler(res) {
     if (res.ok) return res;
     throw Error(res.statusText);
   }
 
   /**
-   * サーバ通信に成功した時のコールバック
-   */
+     * サーバ通信に成功した時のコールバック
+     */
   function success() {
     // id属性の名前（配列）
     var idNames = ['contents', 'textarea_wrap', 'mail_top', 'send_message_btn', 'cat_icon', 'form', 'result', 'mail_back', 'mail_front'];
@@ -150,8 +171,8 @@
   }
 
   /**
-   * 送信アニメーション終了時のコールバック
-   */
+     * 送信アニメーション終了時のコールバック
+     */
   function resultCallbackCreate(target) {
 
     return function resultCallback() {
@@ -174,8 +195,8 @@
   }
 
   /**
-   * アニメーション初期化(アニメーションclassを削除)
-   */
+     * アニメーション初期化(アニメーションclassを削除)
+     */
   function animationInitialize(target) {
     // formを隠す
     target.get('form').style.visibility = 'hidden';
@@ -190,8 +211,8 @@
   }
 
   /**
-   * 封筒を非表示にして、formを表示する
-   */
+     * 封筒を非表示にして、formを表示する
+     */
   function showMailForm(target) {
     target.get('mail_back').style.visibility = 'hidden';
     target.get('mail_front').style.visibility = 'hidden';
@@ -200,8 +221,8 @@
   }
 
   /**
-   * textareaの初期化
-   */
+     * textareaの初期化
+     */
   function textareaCallbackCreate(target) {
     // textareのコールバック
     return function textareaCallback() {
@@ -220,8 +241,8 @@
   }
 
   /**
-   * 空文字の時のエラーメッセージの表示
-   */
+     * 空文字の時のエラーメッセージの表示
+     */
   function inputError() {
     // ノード取得
     var error = document.getElementById('error_text');
@@ -234,10 +255,10 @@
   }
 
   /**
-   * エラーメッセージの初期化
-   */
+     * エラーメッセージの初期化
+     */
   function removeErrorMSG() {
     // 子孫ノードを初期化
-    document.getElementById('error_text').innerHTML = "";
+    document.getElementById('error_text').innerHTML = '';
   }
 })();
