@@ -38,7 +38,7 @@
                     message: message,
                     date: new Date()
                 };
-
+                document.activeElement.blur(); //focusを外す
                 // サーバに送信
                 postComment(data);
 
@@ -79,6 +79,7 @@
                     message: message,
                     date: new Date()
                 };
+                document.activeElement.blur(); // focusを外す
 
                 // サーバに送信
                 postComment(data);
