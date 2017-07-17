@@ -23,7 +23,9 @@ header{
 .logo{
   height: 100%;
 }
-span#today_post{
+  span#today_post{}
+
+.today_post{
   position: absolute;
   right: 0;
   bottom: 0;
