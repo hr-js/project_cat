@@ -216,7 +216,7 @@ position: absolute;
 /* contentが下に動く */
 #contents.animation{
     animation-name: contents_up_down;
-    animation-duration: 2s;
+    animation-duration: 1s;
     animation-timing-function: ease;
     animation-fill-mode: forwards;
 }
@@ -230,7 +230,7 @@ position: absolute;
 /* textaraが上に動いて手紙の中に入る */
 #textarea_wrap.animation{
     animation-name: into_mail;
-    animation-duration: 2s;
+    animation-duration: 1s;
     animation-timing-function: ease;
     animation-fill-mode: forwards;
 }
@@ -244,8 +244,8 @@ position: absolute;
 /* mail_topを閉じる */
 #mail_top.animation{
     animation-name: close_mail_top;
-    animation-duration: 1.5s;
-    animation-delay: 1.25s;
+    animation-duration: 0.75s;
+    animation-delay: 0.625s;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
@@ -264,8 +264,8 @@ position: absolute;
 /* 猫のアイコンで封蝋をする */
 #cat_icon.animation{
     animation-name: seal_cat_icon;
-    animation-duration: 0.75s;
-    animation-delay: 2.75s;
+    animation-duration: 0.5s;
+    animation-delay: 1.375s;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
@@ -281,8 +281,8 @@ position: absolute;
 /* 手紙を送る */
 #form.animation{
     animation-name: send_mail;
-    animation-duration: 0.5s;
-    animation-delay: 3.75s;
+    animation-duration: 0.25s;
+    animation-delay: 2s;
     animation-timing-function: ease-in;
     animation-fill-mode: forwards;
 }
@@ -295,8 +295,8 @@ position: absolute;
 /* 送信結果表示 */
 #result.animation{
     animation-name: show_result;
-    animation-duration: 2s;
-    animation-delay: 4.5s;
+    animation-duration: 1s;
+    animation-delay: 2.5s;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
@@ -311,7 +311,7 @@ position: absolute;
 /* textarea出現アニメーション */
 .show_textarea_animation{
     animation-name: show_textarea;
-    animation-duration: 0.25s;
+    animation-duration: 0.2s;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
