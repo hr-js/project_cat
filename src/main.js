@@ -106,7 +106,6 @@
         message: message,
         date: new Date()
       };
-      document.activeElement.blur(); // focusを外す
 
       // サーバに送信
       postComment(data);
@@ -135,19 +134,19 @@
       headers: myHeaders,
       body: JSON.stringify(data),
       mode: 'cors'
-    }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(console.error);
+    }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(sendError);
   }
 
   /**
-     * サーバ通信に失敗した時のコールバック
+     * サーバ通信の成功・失敗判断する関数
      */
   function xhrErrorHandler(res) {
     if (res.ok) return res;
-    throw Error(res.statusText);
+    throw Error('メッセージの送信に失敗しました。');
   }
 
   /**
-     * サーバ通信に成功した時のコールバック
+     * メッセージ通信に成功した時のコールバック
      */
   function success() {
     // id属性の名前（配列）
@@ -161,6 +160,9 @@
     // mapオブジェクトを生成
     const target = new Map(nodes);
 
+    // focusを外す
+    document.activeElement.blur();
+
     // アニメーションの開始 (送信アニメーション)
     target.forEach(function(node) {
       return node.classList.add('animation');
@@ -170,6 +172,31 @@
     target.get('result').addEventListener('animationend', resultCallbackCreate(target));
   }
 
+  /**
+    * サーバ通信に失敗した時のコールバック
+    */
+  function sendError(error = new Error('m9(^Д^)ﾌﾟｷﾞｬｰ')){
+    // ノードを取得
+    const infoBar = document.getElementById('info_bar');
+    // エラーの文字をセット
+    infoBar.innerHTML = error.message;
+    // イベント登録
+    infoBar.addEventListener('animationend', createFnInitInfoBar(infoBar));
+    // アニメーションcssを追加
+    infoBar.classList.add('animation');
+
+  }
+
+  /**
+    * サーバ通信に失敗した時のアニメーション初期化関数
+    */
+  function createFnInitInfoBar(target){
+    return function initInfoCallback(){
+      target.classList.remove('animation');
+      target.innerHTML = '';
+      target.removeEventListener('animationend', initInfoCallback);    
+    };
+  }
 
   /**
      * 送信アニメーション終了時のコールバック
