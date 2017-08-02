@@ -85,7 +85,7 @@
     };
 
     // 接続
-    xhr.open('GET', 'http://localhost:3000/comment/count?date=' + date.toJSON(), true);
+    xhr.open('GET', '/comment/count?date=' + date.toJSON(), true);
     xhr.send();
   }
   /** エラーメッセージの初期化からサーバーへ送信までの処理 */
@@ -130,7 +130,7 @@
     myHeaders.append('Content-Type', 'application/json');
 
     // FetchAPIを使用
-    fetch('http://localhost:3000/comment', {
+    fetch('/comment', {
       method: 'POST',
       headers: myHeaders,
       body: JSON.stringify(data),
