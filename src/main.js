@@ -1,5 +1,5 @@
-'use strict';
 (function() {
+  'use strict';
 
   // 本日の投稿件数を取得：即実行!!!
   getTodaysPostCount();
