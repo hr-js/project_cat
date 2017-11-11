@@ -1,69 +1,59 @@
 (function() {
   'use strict';
 
-  getTodaysPostCount();
+  showTodaysPostCount();
 
   document.addEventListener('DOMContentLoaded', function() {
-
-    const submitBtn = document.getElementById('send_message_btn');
-    const textArea = document.getElementById('input_message');
-
-    submitBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      postMsg();
-    });
-
+    document.getElementById('send_message_btn').addEventListener('click', postMsg);
+    document.getElementById('input_message').addEventListener('input', onInput);
     document.getElementById('form').addEventListener('keypress', onKeyPress);
-
-    function onKeyPress(e) {
-      const enterKey = 13;
-      const otherKeys = ['shiftKey', 'ctrlKey', 'altKey'];
-      if (e.keyCode !== enterKey || otherKeys.some(key => e[key])) {
-        return false;
-      }
-
-      e.preventDefault();
-      postMsg();
-    }
-
-    textArea.addEventListener('input', function() {
-      const messages = this.value;
-      // 入力文字数をテキストエリア右下に表示させる.
-      document.getElementById('text_length').innerHTML = `${messages.trim().length}`;
-      // エラーメッセージの初期化
-      document.getElementById('error_text').innerHTML = '';
-    });
-
-    // textareaにフォーカスインする
     document.getElementById('input_message').focus();
   });
 
+  function onInput() {
+    const messages = this.value;
+    // 入力文字数をテキストエリア右下に表示させる.
+    document.getElementById('text_length').innerHTML = `${messages.trim().length}`;
+    // エラーメッセージの初期化
+    document.getElementById('error_text').innerHTML = '';
+  }
+
+  function onKeyPress(e) {
+    const enterKey = 13;
+    const otherKeys = ['shiftKey', 'ctrlKey', 'altKey'];
+    if (e.keyCode !== enterKey || otherKeys.some(key => e[key])) {
+      return false;
+    }
+    postMsg(e);
+  }
+
   /*
-   * 引数の日付の投稿件数を取得する | default: new Date
+   * 引数の日付の投稿件数を表示する | default: new Date
    */
-  function getTodaysPostCount(date = (new Date())) {
+  function showTodaysPostCount(date = (new Date())) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-    const xhr = new XMLHttpRequest();
+    const errMessage = '投稿件数の取得に失敗しました';
 
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200 || xhr.status == 304) {
-          document.getElementById('today_post').textContent = `${JSON.parse(xhr.responseText).count}`;
-        } else {
-          console.log(`m9(^Д^)ﾌﾟｷﾞｬｰ： ${xhr.statusText}`);
-        }
-        xhr.abort();
-      }
-    };
-
-    xhr.open('GET', `/comment/count?date=${date.toJSON()}`, true);
-    xhr.send();
+    fetch(`/comment/count?date=${date.toJSON()}`,{
+      method: 'GET',
+      headers,
+      mode: 'cors'
+    })
+      .then(res => xhrErrorHandler(res, errMessage))
+      .then(res => res.json())
+      .then(json => {
+        document.getElementById('today_post').textContent = json.count;
+      })
+      .catch(console.error);
   }
 
   /*
    * エラーメッセージを初期化して送信する
    */
-  function postMsg() {
+  function postMsg(e) {
+    e.preventDefault();
     const form = document.getElementsByTagName('form').form;
     const message = form.getElementsByTagName('textarea').input_message.value;
 
@@ -80,23 +70,26 @@
    * メッセージを送信する
    */
   function postComment(data) {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
     fetch('/comment', {
       method: 'POST',
-      headers: myHeaders,
+      headers,
       body: JSON.stringify(data),
       mode: 'cors'
-    }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(sendError);
+    }).then(res => xhrErrorHandler(res, 'メッセージの送信に失敗しました。'))
+      .then(success)
+      .then(showTodaysPostCount)
+      .catch(sendError);
   }
 
   /*
    * サーバ通信の成功・失敗を判断する
    */
-  function xhrErrorHandler(res) {
+  function xhrErrorHandler(res, message) {
     if (res.ok) return res;
-    throw Error('メッセージの送信に失敗しました。');
+    throw Error(message);
   }
 
   /*
