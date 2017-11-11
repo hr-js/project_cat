@@ -1,66 +1,41 @@
 (function() {
   'use strict';
 
-  // 本日の投稿件数を取得：即実行!!!
   getTodaysPostCount();
 
-  /**
-     * ノードが読み込まれたときに処理を実行(タイミングは $(); と一緒 )
-     */
   document.addEventListener('DOMContentLoaded', function() {
 
-    // ノード取得
-    const btn = document.getElementById('send_message_btn'), // 投稿ボタン
-      textArea = document.getElementById('input_message'); // テキストエリア
+    const btn = document.getElementById('send_message_btn');
+    const textArea = document.getElementById('input_message');
 
-    /**
-         * イベント登録
-         */
-    // 投稿ボタンがクリックされた時のイベント
     btn.addEventListener('click', function(e) {
-
-      //ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
       e.preventDefault();
-
-      postMsg(); // エラーメッセージの初期化からサーバーへ送信までの処理
-
+      postMsg();
     });
 
-    /** Enterキーが押された時のイベント */
     document.getElementById('form').addEventListener('keypress', onKeyPress);
 
-    /** e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う */
+    // e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う
     function onKeyPress(e) {
       if (e.keyCode !== 13 || (e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true))) {
         return false;
       }
 
-      // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
       e.preventDefault();
-
-
-      postMsg(); // エラーメッセージの初期化からサーバーへ送信までの処理
+      postMsg();
     }
 
-    // メッセージが入力された時のイベント
     textArea.addEventListener('input', function() {
-
-      // 入力されたメッセージを取得
       const messages = this.value;
-
       // 入力文字数をテキストエリア右下に表示させる.
       document.getElementById('text_length').innerHTML = `${messages.trim().length}`;
       //エラーメッセージの初期化
       document.getElementById('error_text').innerHTML = '';
-
     });
 
     // textareaにフォーカスインする
     document.getElementById('input_message').focus();
-
   });
-
-  // ここから関数を定義
 
   /**
      * 引数の日付の投稿件数を取得する | default: new Date
@@ -73,62 +48,46 @@
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         if (xhr.status == 200 || xhr.status == 304) {
-          // 成功時
           document.getElementById('today_post').textContent = `${JSON.parse(xhr.responseText).count}`;
         } else {
-          // 失敗時
           console.log(`m9(^Д^)ﾌﾟｷﾞｬｰ： ${xhr.statusText}`);
         }
-        // 接続を切る
         xhr.abort();
       }
     };
 
-    // 接続
     xhr.open('GET', `/comment/count?date=${date.toJSON()}`, true);
     xhr.send();
   }
-  /** エラーメッセージの初期化からサーバーへ送信までの処理 */
+
+  /*
+   * エラーメッセージを初期化して送信する
+   */
   function postMsg() {
+    const form = document.getElementsByTagName('form').form;
+    const message = form.getElementsByTagName('textarea').input_message.value;
 
-    // ノードを取得
-    const form = document.getElementsByTagName('form').form,
-      message = form.getElementsByTagName('textarea').input_message.value;
-
-    // エラーメッセージの初期化
     removeErrorMSG();
 
-    // 空文字入力チェック
-    if (message.trim()) { // OK
-
-      // 送信データを作成
+    if (message.trim()) {
       const data = {
         message: message,
         date: new Date()
       };
 
-      // サーバに送信
       postComment(data);
-
-    } else { // NG
-
-      //空文字または改行のみのサブミット時にエラーメッセージを表示.
+    } else {
       inputError();
-
     }
   }
 
-  /**
-     * サーバにメッセージを送信する(非同期通信)
-     */
+  /*
+   * メッセージを送信する
+   */
   function postComment(data) {
-
-    // headerオブジェクトを生成
     const myHeaders = new Headers();
-    // header情報をセット
     myHeaders.append('Content-Type', 'application/json');
 
-    // FetchAPIを使用
     fetch('/comment', {
       method: 'POST',
       headers: myHeaders,
@@ -137,112 +96,93 @@
     }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(sendError);
   }
 
-  /**
-     * サーバ通信の成功・失敗判断する関数
-     */
+  /*
+   * サーバ通信の成功・失敗を判断する
+   */
   function xhrErrorHandler(res) {
     if (res.ok) return res;
     throw Error('メッセージの送信に失敗しました。');
   }
 
-  /**
-     * メッセージ通信に成功した時のコールバック
-     */
+  /*
+   * メッセージ通信に成功した時のコールバック
+   */
   function success() {
-    // id属性の名前（配列）
     const idNames = ['contents', 'textarea_wrap', 'mail_top', 'send_message_btn', 'cat_icon', 'form', 'result', 'mail_back', 'mail_front'];
 
-    // idの配列から、ノード（配列）を取得
+    // idの配列から、ノードを取得
     const nodes = idNames.map(function(id) {
       return [id, document.getElementById(id)];
     });
 
-    // mapオブジェクトを生成
     const target = new Map(nodes);
 
-    // focusを外す
     document.activeElement.blur();
 
-    // アニメーションの開始 (送信アニメーション)
     target.forEach(function(node) {
       return node.classList.add('animation');
     });
 
-    // resultノードを取り出して、アニメーション終了処理を登録
     target.get('result').addEventListener('animationend', resultCallbackCreate(target));
   }
 
-  /**
-    * サーバ通信に失敗した時のコールバック
-    */
+  /*
+   * 通信に失敗した時のコールバック
+   */
   function sendError(error = new Error('m9(^Д^)ﾌﾟｷﾞｬｰ')){
-    // ノードを取得
     const infoBar = document.getElementById('info_bar');
-    // エラーの文字をセット
     infoBar.innerHTML = error.message;
-    // イベント登録
     infoBar.addEventListener('animationend', createFnInitInfoBar(infoBar));
-    // アニメーションcssを追加
     infoBar.classList.add('animation');
-
   }
 
-  /**
-    * サーバ通信に失敗した時のアニメーション初期化関数
-    */
+  /*
+   * 通信に失敗した時のアニメーション初期化関数
+   */
   function createFnInitInfoBar(target){
     return function initInfoCallback(){
       target.classList.remove('animation');
       target.innerHTML = '';
-      target.removeEventListener('animationend', initInfoCallback);    
+      target.removeEventListener('animationend', initInfoCallback);
     };
   }
 
-  /**
-     * 送信アニメーション終了時のコールバック
-     */
+  /*
+   * 送信アニメーション終了時のコールバック
+   */
   function resultCallbackCreate(target) {
 
     return function resultCallback() {
-
-      // 初期化
       animationInitialize(target);
-      // formを再表示
       showMailForm(target);
 
-      // Mapからtextareaノードを取得
       const textarea = target.get('textarea_wrap');
-      // アニメーション終了イベントを登録
-      textarea.addEventListener('animationend', textareaCallbackCreate(target));
 
-      // textarea出現アニメーション開始
+      textarea.addEventListener('animationend', textareaCallbackCreate(target));
       textarea.classList.add('show_textarea_animation');
 
       target.get('result').removeEventListener('animationend', resultCallback);
-
-    }; //ここまでresultCallback
+    };
 
   }
 
-  /**
-     * アニメーション初期化(アニメーションclassを削除)
-     */
+  /*
+   * アニメーション初期化
+   */
   function animationInitialize(target) {
-    // formを隠す
     target.get('form').style.visibility = 'hidden';
 
     target.forEach(function(node) {
       return node.classList.remove('animation');
     });
 
-    // 入力したメッセージ(あれな内容)を抹消
     document.getElementById('input_message').value = '';
     document.getElementById('text_length').innerHTML = '0';
   }
 
-  /**
-     * 封筒を非表示にして、formを表示する
-     */
+  /*
+   * 封筒を非表示にして、formを表示する
+   */
   function showMailForm(target) {
     target.get('mail_back').style.visibility = 'hidden';
     target.get('mail_front').style.visibility = 'hidden';
@@ -250,45 +190,37 @@
     target.get('form').style.visibility = '';
   }
 
-  /**
-     * textareaの初期化
-     */
+  /*
+   * textareaの初期化
+   */
   function textareaCallbackCreate(target) {
-    // textareのコールバック
     return function textareaCallback() {
       var textarea = target.get('textarea_wrap');
-      //初期化
+
       textarea.classList.remove('show_textarea_animation');
       target.get('mail_back').style.visibility = '';
       target.get('mail_front').style.visibility = '';
       target.get('mail_top').style.visibility = '';
 
-      // 再びフォーカスイン
       textarea.focus();
-      // アニメーション終了後、自身イベントを解除
       textarea.removeEventListener('animationend', textareaCallback);
     };
   }
 
-  /**
-     * 空文字の時のエラーメッセージの表示
-     */
+  /*
+   * 空文字の時のエラーメッセージの表示
+   */
   function inputError() {
-    // ノード取得
     const error = document.getElementById('error_text');
-    // クラス属性を追加
-    const redError = error.setAttribute('class', 'error');
-    // テキストノードを作成
+    error.setAttribute('class', 'error');
     const textError = document.createTextNode('文字を入力してください');
-    //　ノードを追加
     error.appendChild(textError);
   }
 
-  /**
-     * エラーメッセージの初期化
-     */
+  /*
+   * エラーメッセージの初期化
+   */
   function removeErrorMSG() {
-    // 子孫ノードを初期化
     document.getElementById('error_text').innerHTML = '';
   }
 
