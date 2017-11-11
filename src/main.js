@@ -5,19 +5,20 @@
 
   document.addEventListener('DOMContentLoaded', function() {
 
-    const btn = document.getElementById('send_message_btn');
+    const submitBtn = document.getElementById('send_message_btn');
     const textArea = document.getElementById('input_message');
 
-    btn.addEventListener('click', function(e) {
+    submitBtn.addEventListener('click', function(e) {
       e.preventDefault();
       postMsg();
     });
 
     document.getElementById('form').addEventListener('keypress', onKeyPress);
 
-    // e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う
     function onKeyPress(e) {
-      if (e.keyCode !== 13 || (e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true))) {
+      const enterKey = 13;
+      const otherKeys = ['shiftKey', 'ctrlKey', 'altKey'];
+      if (e.keyCode !== enterKey || otherKeys.some(key => e[key])) {
         return false;
       }
 
@@ -29,7 +30,7 @@
       const messages = this.value;
       // 入力文字数をテキストエリア右下に表示させる.
       document.getElementById('text_length').innerHTML = `${messages.trim().length}`;
-      //エラーメッセージの初期化
+      // エラーメッセージの初期化
       document.getElementById('error_text').innerHTML = '';
     });
 
@@ -37,10 +38,9 @@
     document.getElementById('input_message').focus();
   });
 
-  /**
-     * 引数の日付の投稿件数を取得する | default: new Date
-     * （非同期通信）
-     */
+  /*
+   * 引数の日付の投稿件数を取得する | default: new Date
+   */
   function getTodaysPostCount(date = (new Date())) {
 
     const xhr = new XMLHttpRequest();
@@ -67,15 +67,10 @@
     const form = document.getElementsByTagName('form').form;
     const message = form.getElementsByTagName('textarea').input_message.value;
 
-    removeErrorMSG();
+    document.getElementById('error_text').innerHTML = '';
 
     if (message.trim()) {
-      const data = {
-        message: message,
-        date: new Date()
-      };
-
-      postComment(data);
+      postComment({ message, date: new Date() });
     } else {
       inputError();
     }
@@ -108,21 +103,24 @@
    * メッセージ通信に成功した時のコールバック
    */
   function success() {
-    const idNames = ['contents', 'textarea_wrap', 'mail_top', 'send_message_btn', 'cat_icon', 'form', 'result', 'mail_back', 'mail_front'];
+    const idNames = [
+      'contents',
+      'textarea_wrap',
+      'mail_top',
+      'send_message_btn',
+      'cat_icon',
+      'form',
+      'result',
+      'mail_back',
+      'mail_front'
+    ];
 
-    // idの配列から、ノードを取得
-    const nodes = idNames.map(function(id) {
-      return [id, document.getElementById(id)];
-    });
-
+    const nodes = idNames.map(id => [id, document.getElementById(id)]);
     const target = new Map(nodes);
 
     document.activeElement.blur();
 
-    target.forEach(function(node) {
-      return node.classList.add('animation');
-    });
-
+    target.forEach(node => node.classList.add('animation'));
     target.get('result').addEventListener('animationend', resultCallbackCreate(target));
   }
 
@@ -151,7 +149,6 @@
    * 送信アニメーション終了時のコールバック
    */
   function resultCallbackCreate(target) {
-
     return function resultCallback() {
       animationInitialize(target);
       showMailForm(target);
@@ -171,10 +168,7 @@
    */
   function animationInitialize(target) {
     target.get('form').style.visibility = 'hidden';
-
-    target.forEach(function(node) {
-      return node.classList.remove('animation');
-    });
+    target.forEach(node => node.classList.remove('animation'));
 
     document.getElementById('input_message').value = '';
     document.getElementById('text_length').innerHTML = '0';
@@ -184,27 +178,32 @@
    * 封筒を非表示にして、formを表示する
    */
   function showMailForm(target) {
-    target.get('mail_back').style.visibility = 'hidden';
-    target.get('mail_front').style.visibility = 'hidden';
-    target.get('mail_top').style.visibility = 'hidden';
+    changeEnvelopeVisibility(target, 'hidden');
     target.get('form').style.visibility = '';
   }
 
   /*
-   * textareaの初期化
+   * textarea初期化コールバックを作成する
    */
   function textareaCallbackCreate(target) {
     return function textareaCallback() {
-      var textarea = target.get('textarea_wrap');
+      const textarea = target.get('textarea_wrap');
 
       textarea.classList.remove('show_textarea_animation');
-      target.get('mail_back').style.visibility = '';
-      target.get('mail_front').style.visibility = '';
-      target.get('mail_top').style.visibility = '';
+      changeEnvelopeVisibility(target, '');
 
       textarea.focus();
       textarea.removeEventListener('animationend', textareaCallback);
     };
+  }
+
+  /*
+   * 封筒の表示状態を変更する
+   */
+  function changeEnvelopeVisibility(target, visibility) {
+    ['mail_back', 'mail_front', 'mail_top'].forEach(elementId => {
+      target.get(elementId).style.visibility = visibility;
+    });
   }
 
   /*
@@ -215,13 +214,6 @@
     error.setAttribute('class', 'error');
     const textError = document.createTextNode('文字を入力してください');
     error.appendChild(textError);
-  }
-
-  /*
-   * エラーメッセージの初期化
-   */
-  function removeErrorMSG() {
-    document.getElementById('error_text').innerHTML = '';
   }
 
 })();
