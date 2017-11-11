@@ -1,196 +1,138 @@
 'use strict';
 
 (function () {
+  'use strict';
 
-  // 本日の投稿件数を取得：即実行!!!
-  getTodaysPostCount();
+  showTodaysPostCount();
 
-  /**
-     * ノードが読み込まれたときに処理を実行(タイミングは $(); と一緒 )
-     */
   document.addEventListener('DOMContentLoaded', function () {
-
-    // ノード取得
-    var btn = document.getElementById('send_message_btn'),
-        // 投稿ボタン
-    textArea = document.getElementById('input_message'); // テキストエリア
-
-    /**
-         * イベント登録
-         */
-    // 投稿ボタンがクリックされた時のイベント
-    btn.addEventListener('click', function (e) {
-
-      //ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
-      e.preventDefault();
-
-      postMsg(); // エラーメッセージの初期化からサーバーへ送信までの処理
-    });
-
-    /** Enterキーが押された時のイベント */
+    document.getElementById('send_message_btn').addEventListener('click', postMsg);
+    document.getElementById('input_message').addEventListener('input', onInput);
     document.getElementById('form').addEventListener('keypress', onKeyPress);
-
-    /** e.keyCode=13(Enterキー)のキーが単独で押された場合のみ処理を行う */
-    function onKeyPress(e) {
-      if (e.keyCode !== 13 || e.keyCode === 13 && (e.shiftKey === true || e.ctrlKey === true || e.altKey === true)) {
-        return false;
-      }
-
-      // ボタンのクリックイベントをキャンセルする(submit処理キャンセル)
-      e.preventDefault();
-
-      postMsg(); // エラーメッセージの初期化からサーバーへ送信までの処理
-    }
-
-    // メッセージが入力された時のイベント
-    textArea.addEventListener('input', function () {
-
-      // 入力されたメッセージを取得
-      var messages = this.value;
-
-      // 入力文字数をテキストエリア右下に表示させる.
-      document.getElementById('text_length').innerHTML = '' + messages.trim().length;
-      //エラーメッセージの初期化
-      document.getElementById('error_text').innerHTML = '';
-    });
-
-    // textareaにフォーカスインする
     document.getElementById('input_message').focus();
   });
 
-  // ここから関数を定義
+  function onInput() {
+    var messages = this.value;
+    // 入力文字数をテキストエリア右下に表示させる.
+    document.getElementById('text_length').innerHTML = '' + messages.trim().length;
+    // エラーメッセージの初期化
+    document.getElementById('error_text').innerHTML = '';
+  }
 
-  /**
-     * 引数の日付の投稿件数を取得する | default: new Date
-     * （非同期通信）
-     */
-  function getTodaysPostCount() {
+  function onKeyPress(e) {
+    var enterKey = 13;
+    var otherKeys = ['shiftKey', 'ctrlKey', 'altKey'];
+    if (e.keyCode !== enterKey || otherKeys.some(function (key) {
+      return e[key];
+    })) {
+      return false;
+    }
+    postMsg(e);
+  }
+
+  /*
+   * 引数の日付の投稿件数を表示する | default: new Date
+   */
+  function showTodaysPostCount() {
     var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
 
 
-    var xhr = new XMLHttpRequest();
+    // const xhr = new XMLHttpRequest();
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200 || xhr.status == 304) {
-          // 成功時
-          document.getElementById('today_post').textContent = '' + JSON.parse(xhr.responseText).count;
-        } else {
-          // 失敗時
-          console.log('m9(^\u0414^)\uFF8C\uFF9F\uFF77\uFF9E\uFF6C\uFF70\uFF1A ' + xhr.statusText);
-        }
-        // 接続を切る
-        xhr.abort();
-      }
-    };
+    var errMessage = '投稿件数の取得に失敗しました';
 
-    // 接続
-    xhr.open('GET', '/comment/count?date=' + date.toJSON(), true);
-    xhr.send();
+    fetch('/comment/count?date=' + date.toJSON(), {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors'
+    }).then(function (res) {
+      return xhrErrorHandler(res, errMessage);
+    }).then(function (res) {
+      return res.json();
+    }).then(function (json) {
+      document.getElementById('today_post').textContent = json.count;
+    }).catch(console.error);
   }
-  /** エラーメッセージの初期化からサーバーへ送信までの処理 */
-  function postMsg() {
 
-    // ノードを取得
-    var form = document.getElementsByTagName('form').form,
-        message = form.getElementsByTagName('textarea').input_message.value;
+  /*
+   * エラーメッセージを初期化して送信する
+   */
+  function postMsg(e) {
+    e.preventDefault();
+    var form = document.getElementsByTagName('form').form;
+    var message = form.getElementsByTagName('textarea').input_message.value;
 
-    // エラーメッセージの初期化
-    removeErrorMSG();
+    document.getElementById('error_text').innerHTML = '';
 
-    // 空文字入力チェック
     if (message.trim()) {
-      // OK
-
-      // 送信データを作成
-      var data = {
-        message: message,
-        date: new Date()
-      };
-
-      // サーバに送信
-      postComment(data);
+      postComment({ message: message, date: new Date() });
     } else {
-      // NG
-
-      //空文字または改行のみのサブミット時にエラーメッセージを表示.
       inputError();
     }
   }
 
-  /**
-     * サーバにメッセージを送信する(非同期通信)
-     */
+  /*
+   * メッセージを送信する
+   */
   function postComment(data) {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-    // headerオブジェクトを生成
-    var myHeaders = new Headers();
-    // header情報をセット
-    myHeaders.append('Content-Type', 'application/json');
-
-    // FetchAPIを使用
     fetch('/comment', {
       method: 'POST',
-      headers: myHeaders,
+      headers: headers,
       body: JSON.stringify(data),
       mode: 'cors'
-    }).then(xhrErrorHandler).then(success).then(getTodaysPostCount).catch(sendError);
+    }).then(function (res) {
+      return xhrErrorHandler(res, 'メッセージの送信に失敗しました。');
+    }).then(success).then(showTodaysPostCount).catch(sendError);
   }
 
-  /**
-     * サーバ通信の成功・失敗判断する関数
-     */
-  function xhrErrorHandler(res) {
+  /*
+   * サーバ通信の成功・失敗を判断する
+   */
+  function xhrErrorHandler(res, message) {
     if (res.ok) return res;
-    throw Error('メッセージの送信に失敗しました。');
+    throw Error(message);
   }
 
-  /**
-     * メッセージ通信に成功した時のコールバック
-     */
+  /*
+   * メッセージ通信に成功した時のコールバック
+   */
   function success() {
-    // id属性の名前（配列）
     var idNames = ['contents', 'textarea_wrap', 'mail_top', 'send_message_btn', 'cat_icon', 'form', 'result', 'mail_back', 'mail_front'];
 
-    // idの配列から、ノード（配列）を取得
     var nodes = idNames.map(function (id) {
       return [id, document.getElementById(id)];
     });
-
-    // mapオブジェクトを生成
     var target = new Map(nodes);
 
-    // focusを外す
     document.activeElement.blur();
 
-    // アニメーションの開始 (送信アニメーション)
     target.forEach(function (node) {
       return node.classList.add('animation');
     });
-
-    // resultノードを取り出して、アニメーション終了処理を登録
     target.get('result').addEventListener('animationend', resultCallbackCreate(target));
   }
 
-  /**
-    * サーバ通信に失敗した時のコールバック
-    */
+  /*
+   * 通信に失敗した時のコールバック
+   */
   function sendError() {
     var error = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Error('m9(^Д^)ﾌﾟｷﾞｬｰ');
 
-    // ノードを取得
     var infoBar = document.getElementById('info_bar');
-    // エラーの文字をセット
     infoBar.innerHTML = error.message;
-    // イベント登録
     infoBar.addEventListener('animationend', createFnInitInfoBar(infoBar));
-    // アニメーションcssを追加
     infoBar.classList.add('animation');
   }
 
-  /**
-    * サーバ通信に失敗した時のアニメーション初期化関数
-    */
+  /*
+   * 通信に失敗した時のアニメーション初期化関数
+   */
   function createFnInitInfoBar(target) {
     return function initInfoCallback() {
       target.classList.remove('animation');
@@ -199,95 +141,75 @@
     };
   }
 
-  /**
-     * 送信アニメーション終了時のコールバック
-     */
+  /*
+   * 送信アニメーション終了時のコールバック
+   */
   function resultCallbackCreate(target) {
-
     return function resultCallback() {
-
-      // 初期化
       animationInitialize(target);
-      // formを再表示
       showMailForm(target);
 
-      // Mapからtextareaノードを取得
       var textarea = target.get('textarea_wrap');
-      // アニメーション終了イベントを登録
-      textarea.addEventListener('animationend', textareaCallbackCreate(target));
 
-      // textarea出現アニメーション開始
+      textarea.addEventListener('animationend', textareaCallbackCreate(target));
       textarea.classList.add('show_textarea_animation');
 
       target.get('result').removeEventListener('animationend', resultCallback);
-    }; //ここまでresultCallback
+    };
   }
 
-  /**
-     * アニメーション初期化(アニメーションclassを削除)
-     */
+  /*
+   * アニメーション初期化
+   */
   function animationInitialize(target) {
-    // formを隠す
     target.get('form').style.visibility = 'hidden';
-
     target.forEach(function (node) {
       return node.classList.remove('animation');
     });
 
-    // 入力したメッセージ(あれな内容)を抹消
     document.getElementById('input_message').value = '';
     document.getElementById('text_length').innerHTML = '0';
   }
 
-  /**
-     * 封筒を非表示にして、formを表示する
-     */
+  /*
+   * 封筒を非表示にして、formを表示する
+   */
   function showMailForm(target) {
-    target.get('mail_back').style.visibility = 'hidden';
-    target.get('mail_front').style.visibility = 'hidden';
-    target.get('mail_top').style.visibility = 'hidden';
+    changeEnvelopeVisibility(target, 'hidden');
     target.get('form').style.visibility = '';
   }
 
-  /**
-     * textareaの初期化
-     */
+  /*
+   * textarea初期化コールバックを作成する
+   */
   function textareaCallbackCreate(target) {
-    // textareのコールバック
     return function textareaCallback() {
       var textarea = target.get('textarea_wrap');
-      //初期化
-      textarea.classList.remove('show_textarea_animation');
-      target.get('mail_back').style.visibility = '';
-      target.get('mail_front').style.visibility = '';
-      target.get('mail_top').style.visibility = '';
 
-      // 再びフォーカスイン
+      textarea.classList.remove('show_textarea_animation');
+      changeEnvelopeVisibility(target, '');
+
       textarea.focus();
-      // アニメーション終了後、自身イベントを解除
       textarea.removeEventListener('animationend', textareaCallback);
     };
   }
 
-  /**
-     * 空文字の時のエラーメッセージの表示
-     */
-  function inputError() {
-    // ノード取得
-    var error = document.getElementById('error_text');
-    // クラス属性を追加
-    var redError = error.setAttribute('class', 'error');
-    // テキストノードを作成
-    var textError = document.createTextNode('文字を入力してください');
-    //　ノードを追加
-    error.appendChild(textError);
+  /*
+   * 封筒の表示状態を変更する
+   */
+  function changeEnvelopeVisibility(target, visibility) {
+    ['mail_back', 'mail_front', 'mail_top'].forEach(function (elementId) {
+      target.get(elementId).style.visibility = visibility;
+    });
   }
 
-  /**
-     * エラーメッセージの初期化
-     */
-  function removeErrorMSG() {
-    // 子孫ノードを初期化
-    document.getElementById('error_text').innerHTML = '';
+  /*
+   * 空文字の時のエラーメッセージの表示
+   */
+  function inputError() {
+    var error = document.getElementById('error_text');
+    error.setAttribute('class', 'error');
+    var textError = document.createTextNode('文字を入力してください');
+    error.appendChild(textError);
   }
 })();
